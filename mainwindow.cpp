@@ -9,14 +9,19 @@
 #include <QDragMoveEvent>
 #include <QDropEvent>
 #include <QMouseEvent>
+#include <QFile>
 #include <cstdio>
 #include <iostream>
-#include <qlistwidget.h>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     setupUi();
+	QFile File("style.qss");
+	File.open(QFile::ReadOnly);
+	QString StyleSheet = QLatin1String(File.readAll());
+	setStyleSheet(StyleSheet);
 }
 
 void MainWindow::onSubmitButtonClicked()
@@ -69,6 +74,8 @@ void MainWindow::setupUi()
 {
     QWidget *centralWidget = new QWidget(this);
     QVBoxLayout *layout = new QVBoxLayout(centralWidget);
+	layout->setSpacing(0);
+	layout->setContentsMargins(0, 0, 0, 0);
 
     scrollArea = new QScrollArea(this);
     scrollArea->setWidgetResizable(true);
@@ -76,11 +83,13 @@ void MainWindow::setupUi()
     listWidget = new QListWidget(this);
 	listWidget->setDragEnabled(true);
 	listWidget->setDragDropMode(QAbstractItemView::InternalMove);
+	listWidget->setProperty("class", "list-widget");
     scrollArea->setWidget(listWidget);
     layout->addWidget(scrollArea);
 
     inputField = new QLineEdit(this);
     inputField->setMaxLength(100);
+	inputField->setProperty("class", "input-field");
     connect(inputField, &QLineEdit::returnPressed, this, &MainWindow::onSubmitButtonClicked);
     layout->addWidget(inputField);
 
