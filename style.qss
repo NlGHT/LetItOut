@@ -7,12 +7,16 @@
 }
 
 .list-widget::item {
-    padding: 20%;
+    padding: 10%;
 	width: 100%;
-	height: 5%;
+	height: 30%;
 	background-color: #5a79f0;
 	color: #FFF;
 	margin: 1% 0;
+}
+
+.list-widget::item:selected {
+
 }
 
 .input-field {
@@ -30,7 +34,7 @@
 	caret-color:#FFF;
 }
 
-.input-field:focus {
-	border-color: #ffffff;
-	background-color: #9484ea;
-}
+#.input-field:focus {
+#	border-color: #ffffff;
+#	background-color: #9484ea;
+#}
