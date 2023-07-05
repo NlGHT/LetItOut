@@ -146,7 +146,7 @@ void MainWindow::setupUi()
 	layout->addWidget(scrollArea);
 
 	inputField = new QLineEdit(this);
-	inputField->setMaxLength(80);
+	inputField->setMaxLength(100);
 	inputField->setProperty("class", "input-field");
 	connect(inputField, &QLineEdit::returnPressed, this, &MainWindow::onSubmitButtonClicked);
 	layout->addWidget(inputField);
