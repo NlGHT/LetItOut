@@ -92,7 +92,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 					listWidget->takeItem(currentItemIndex);
 					listWidget->insertItem(currentItemIndex + 1, currentItem);
 					listWidget->setCurrentItem(currentItem);
-					std::cout << "CTRL SHIFT J" << std::endl;
 				} else if (event->modifiers() == Qt::ControlModifier) {
 					listWidget->setCurrentRow(currentItemIndex + 1);
 				}
