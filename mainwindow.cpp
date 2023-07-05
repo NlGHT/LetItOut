@@ -10,7 +10,7 @@
 #include <QDropEvent>
 #include <QMouseEvent>
 #include <QFile>
-#include <cstdio>
+#include <QDebug>
 #include <iostream>
 
 
@@ -46,6 +46,7 @@ void MainWindow::onItemDoubleClicked(QListWidgetItem *item)
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
+	// Doesn't seem to work
     if (event->button() == Qt::LeftButton) {
         QListWidgetItem *selectedItem = listWidget->currentItem();
         if (selectedItem) {
@@ -55,6 +56,60 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 
     QMainWindow::mousePressEvent(event);
 }
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+	if (event->key() == Qt::Key_Escape)
+	{
+		if (listWidget->hasFocus()) {
+			// Handle the escape key press event here
+			listWidget->clearSelection();
+			listWidget->clearFocus();
+			inputField->setFocus();
+		} else if (inputField->hasFocus()) {
+			inputField->clearFocus();
+			listWidget->focusWidget();
+		}
+	} else if (listWidget->hasFocus()) {
+		auto currentItem = listWidget->currentItem();
+		int currentItemIndex = listWidget->row(currentItem);
+		if (event->key() == Qt::Key_K) {
+			if (currentItemIndex > 0) {
+				if (event->modifiers() == (Qt::ControlModifier | Qt::ShiftModifier)) {
+					// Shift up pressed
+					listWidget->takeItem(currentItemIndex);
+					listWidget->insertItem(currentItemIndex - 1, currentItem);
+					listWidget->setCurrentItem(currentItem);
+				} else if (event->modifiers() == Qt::ControlModifier) {
+					listWidget->setCurrentRow(currentItemIndex - 1);
+				}
+			}
+		} else if (event->key() == Qt::Key_J) {
+			if (currentItemIndex < listWidget->count() - 1) {
+				// Shift down pressed
+				if (event->modifiers() == (Qt::ControlModifier | Qt::ShiftModifier)) {
+					listWidget->takeItem(currentItemIndex);
+					listWidget->insertItem(currentItemIndex + 1, currentItem);
+					listWidget->setCurrentItem(currentItem);
+					std::cout << "CTRL SHIFT J" << std::endl;
+				} else if (event->modifiers() == Qt::ControlModifier) {
+					listWidget->setCurrentRow(currentItemIndex + 1);
+				}
+			}
+		} else if (event->key() == Qt::Key_Return) {
+			listWidget->editItem(currentItem);
+		}
+	} else if (event->key() == Qt::Key_Delete) {
+		delete listWidget->currentItem();
+	} else if (event->key() == Qt::Key_Tab) {
+		if (!listWidget->hasFocus()) {
+			listWidget->focusWidget();
+		} else {
+			inputField->focusWidget();
+		}
+	}
+}
+
 
 
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)
@@ -72,7 +127,9 @@ void MainWindow::dropEvent(QDropEvent *event)
 
 void MainWindow::setupUi()
 {
+	qDebug() << "SETUP UI";
     QWidget *centralWidget = new QWidget(this);
+	centralWidget->setProperty("class", "main-layout");
     QVBoxLayout *layout = new QVBoxLayout(centralWidget);
 	layout->setSpacing(0);
 	layout->setContentsMargins(0, 0, 0, 0);
@@ -88,12 +145,14 @@ void MainWindow::setupUi()
     layout->addWidget(scrollArea);
 
     inputField = new QLineEdit(this);
-    inputField->setMaxLength(100);
+    inputField->setMaxLength(80);
 	inputField->setProperty("class", "input-field");
     connect(inputField, &QLineEdit::returnPressed, this, &MainWindow::onSubmitButtonClicked);
     layout->addWidget(inputField);
 
     setCentralWidget(centralWidget);
+
+	inputField->setFocus();
 }
 
 void MainWindow::addToList(const QString &text)

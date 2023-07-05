@@ -7,6 +7,7 @@
 #include <QListWidget>
 #include <QLineEdit>
 #include <QListWidgetItem>
+#include <QMouseEvent>
 
 class MainWindow : public QMainWindow
 {
@@ -19,10 +20,10 @@ private slots:
     void onSubmitButtonClicked();
     void onItemDoubleClicked(QListWidgetItem *item);
     // Event handlers
-    void mousePressEvent(QMouseEvent *event) override;
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dropEvent(QDropEvent *event) override;
+	void keyPressEvent(QKeyEvent *event) override;
 
 private:
     void setupUi();
@@ -31,6 +32,9 @@ private:
     QScrollArea *scrollArea;
     QListWidget *listWidget;
     QLineEdit *inputField;
+
+protected:
+    void mousePressEvent(QMouseEvent *event) override;
 };
 
 #endif // MAINWINDOW_H
