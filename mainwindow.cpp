@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     setupUi();
+	setMouseTracking(true);
 	QFile File("style.qss");
 	File.open(QFile::ReadOnly);
 	QString StyleSheet = QLatin1String(File.readAll());
