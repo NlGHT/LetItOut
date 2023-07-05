@@ -27,12 +27,12 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::onSubmitButtonClicked()
 {
-    QString inputText = inputField->text().trimmed();
-    if (!inputText.isEmpty())
-    {
-        addToList(inputText);
-        inputField->clear();
-    }
+	QString inputText = inputField->text().trimmed();
+	if (!inputText.isEmpty())
+	{
+		addToList(inputText);
+		inputField->clear();
+	}
 }
 
 void MainWindow::onItemDoubleClicked(QListWidgetItem *item)
@@ -48,14 +48,14 @@ void MainWindow::onItemDoubleClicked(QListWidgetItem *item)
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
 	// Doesn't seem to work
-    if (event->button() == Qt::LeftButton) {
-        QListWidgetItem *selectedItem = listWidget->currentItem();
-        if (selectedItem) {
+	if (event->button() == Qt::LeftButton) {
+		QListWidgetItem *selectedItem = listWidget->currentItem();
+		if (selectedItem) {
 
-        }
-    }
+		}
+	}
 
-    QMainWindow::mousePressEvent(event);
+	QMainWindow::mousePressEvent(event);
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -129,37 +129,37 @@ void MainWindow::dropEvent(QDropEvent *event)
 void MainWindow::setupUi()
 {
 	qDebug() << "SETUP UI";
-    QWidget *centralWidget = new QWidget(this);
+	QWidget *centralWidget = new QWidget(this);
 	centralWidget->setProperty("class", "main-layout");
-    QVBoxLayout *layout = new QVBoxLayout(centralWidget);
+	QVBoxLayout *layout = new QVBoxLayout(centralWidget);
 	layout->setSpacing(0);
 	layout->setContentsMargins(0, 0, 0, 0);
 
-    scrollArea = new QScrollArea(this);
-    scrollArea->setWidgetResizable(true);
+	scrollArea = new QScrollArea(this);
+	scrollArea->setWidgetResizable(true);
 
-    listWidget = new QListWidget(this);
+	listWidget = new QListWidget(this);
 	listWidget->setDragEnabled(true);
 	listWidget->setDragDropMode(QAbstractItemView::InternalMove);
 	listWidget->setProperty("class", "list-widget");
-    scrollArea->setWidget(listWidget);
-    layout->addWidget(scrollArea);
+	scrollArea->setWidget(listWidget);
+	layout->addWidget(scrollArea);
 
-    inputField = new QLineEdit(this);
-    inputField->setMaxLength(80);
+	inputField = new QLineEdit(this);
+	inputField->setMaxLength(80);
 	inputField->setProperty("class", "input-field");
-    connect(inputField, &QLineEdit::returnPressed, this, &MainWindow::onSubmitButtonClicked);
-    layout->addWidget(inputField);
+	connect(inputField, &QLineEdit::returnPressed, this, &MainWindow::onSubmitButtonClicked);
+	layout->addWidget(inputField);
 
-    setCentralWidget(centralWidget);
+	setCentralWidget(centralWidget);
 
 	inputField->setFocus();
 }
 
 void MainWindow::addToList(const QString &text)
 {
-    QListWidgetItem *item = new QListWidgetItem(text);
-    item->setFlags(item->flags() | Qt::ItemIsEditable);
-    connect(listWidget, &QListWidget::itemDoubleClicked, this, &MainWindow::onItemDoubleClicked);
-    listWidget->addItem(item);
+	QListWidgetItem *item = new QListWidgetItem(text);
+	item->setFlags(item->flags() | Qt::ItemIsEditable);
+	connect(listWidget, &QListWidget::itemDoubleClicked, this, &MainWindow::onItemDoubleClicked);
+	listWidget->addItem(item);
 }

@@ -11,30 +11,30 @@
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+	Q_OBJECT
 
-public:
-    MainWindow(QWidget *parent = nullptr);
+	public:
+		MainWindow(QWidget *parent = nullptr);
 
-private slots:
-    void onSubmitButtonClicked();
-    void onItemDoubleClicked(QListWidgetItem *item);
-    // Event handlers
-    void dragEnterEvent(QDragEnterEvent *event) override;
-    void dragMoveEvent(QDragMoveEvent *event) override;
-    void dropEvent(QDropEvent *event) override;
-	void keyPressEvent(QKeyEvent *event) override;
+		private slots:
+			void onSubmitButtonClicked();
+		void onItemDoubleClicked(QListWidgetItem *item);
+		// Event handlers
+		void dragEnterEvent(QDragEnterEvent *event) override;
+		void dragMoveEvent(QDragMoveEvent *event) override;
+		void dropEvent(QDropEvent *event) override;
+		void keyPressEvent(QKeyEvent *event) override;
 
-private:
-    void setupUi();
-    void addToList(const QString &text);
+	private:
+		void setupUi();
+		void addToList(const QString &text);
 
-    QScrollArea *scrollArea;
-    QListWidget *listWidget;
-    QLineEdit *inputField;
+		QScrollArea *scrollArea;
+		QListWidget *listWidget;
+		QLineEdit *inputField;
 
-protected:
-    void mousePressEvent(QMouseEvent *event) override;
+	protected:
+		void mousePressEvent(QMouseEvent *event) override;
 };
 
 #endif // MAINWINDOW_H
