@@ -141,6 +141,7 @@ void MainWindow::setupUi()
 	listWidget->setDragEnabled(true);
 	listWidget->setDragDropMode(QAbstractItemView::InternalMove);
 	listWidget->setProperty("class", "list-widget");
+	listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	scrollArea->setWidget(listWidget);
 	layout->addWidget(scrollArea);
 
@@ -161,4 +162,5 @@ void MainWindow::addToList(const QString &text)
 	item->setFlags(item->flags() | Qt::ItemIsEditable);
 	connect(listWidget, &QListWidget::itemDoubleClicked, this, &MainWindow::onItemDoubleClicked);
 	listWidget->addItem(item);
+	listWidget->scrollToBottom();
 }
