@@ -16,14 +16,12 @@ jobs:
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
         with:
-          version: '6.5.1'
+          version: '6.5'
           host: 'windows'
           target: 'desktop'
           arch: 'win64_msvc2019_64'
-          dir: '${{ github.workspace }}/example/'
+          dir: '${{ github.workspace }}/'
           install-deps: 'true'
-          modules: 'qtcharts qtwebengine'
-          archives: 'qtbase qtsvg'
           cache: 'false'
           cache-key-prefix: 'install-qt-action'
           setup-python: 'true'
@@ -33,3 +31,7 @@ jobs:
           aqtversion: '==3.1.*'
           py7zrversion: '==0.20.*'
           extra: '--external 7z'
+      - name: Build
+        shell: cmd
+        run: |
+          dir "%Qt5_DIR%/bin"
