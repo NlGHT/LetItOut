@@ -27,7 +27,8 @@ class MainWindow : public QMainWindow
 
 	private:
 		void setupUi();
-		void addToList(const QString &text);
+        void addToList(const QString &text);
+        void toggleFullscreen();
 
 		QScrollArea *scrollArea;
 		QListWidget *listWidget;

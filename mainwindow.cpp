@@ -10,6 +10,8 @@
 #include <QDropEvent>
 #include <QMouseEvent>
 #include <QFile>
+#include <QResource>
+#include <QShortcut>
 #include <QDebug>
 #include <iostream>
 
@@ -19,10 +21,16 @@ MainWindow::MainWindow(QWidget *parent)
 {
     setupUi();
 	setMouseTracking(true);
-	QFile File("style.qss");
-	File.open(QFile::ReadOnly);
-	QString StyleSheet = QLatin1String(File.readAll());
-	setStyleSheet(StyleSheet);
+    QResource::registerResource("://resources.qrc");
+    QFile qssFile(":/qss/style.qss");
+    if (qssFile.open(QFile::ReadOnly)) {
+        QString qss = qssFile.readAll();
+        setStyleSheet(qss);
+        std::cout << "HI THERE" << std::endl;
+    }
+
+    QShortcut *shortcut = new QShortcut(Qt::Key_F11, this);
+    connect(shortcut, &QShortcut::activated, this, &MainWindow::toggleFullscreen);
 }
 
 void MainWindow::onSubmitButtonClicked()
@@ -107,7 +115,15 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 		} else {
 			inputField->focusWidget();
 		}
-	}
+    }
+}
+
+void MainWindow::toggleFullscreen()
+{
+    if (isFullScreen())
+        showNormal();
+    else
+        showFullScreen();
 }
 
 
