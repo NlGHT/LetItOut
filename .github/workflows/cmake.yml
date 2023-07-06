@@ -34,4 +34,4 @@ jobs:
       - name: Build
         shell: cmd
         run: |
-          dir "%Qt5_DIR%/bin"
+          cmake --build build --target all
