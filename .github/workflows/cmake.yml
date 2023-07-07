@@ -80,6 +80,7 @@ jobs:
         shell: sh
         run: |
           wget "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+          ls
           chmod +x linuxdeployqt-continuous-x86_64.AppImage
       - name: Build
         shell: sh
@@ -92,6 +93,7 @@ jobs:
       - name: Deploy
         shell: sh
         run: |
+          ls
           linuxdeployqt-continuous-x86_64.AppImage build/${{ env.PROJECT }}
           ls build
       - name: Archive Linux binaries
