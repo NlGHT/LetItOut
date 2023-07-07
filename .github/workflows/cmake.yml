@@ -44,4 +44,11 @@ jobs:
       - name: Deploy
         shell: cmd
         run: |
-          windeploy ./build/LetItOut
+          cd Qt
+          dir
+          cd 6.4.3
+          dir
+          cd msvc2019_64
+          dir
+          cd bin
+          dir
