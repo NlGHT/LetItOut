@@ -22,7 +22,7 @@ jobs:
           arch: 'win64_mingw'
           dir: '${{ github.workspace }}/'
           install-deps: 'true'
-          cache: 'true'
+          cache: 'false'
           cache-key-prefix: 'install-qt-action'
           setup-python: 'true'
           tools: 'tools_cmake tools_mingw tools_ninja'
@@ -35,9 +35,9 @@ jobs:
       - name: Build
         shell: cmd
         run: |
+          dir
           mkdir build
           cd build
           cmake ..
           cd ..
           cmake --build build
-          windeploy build/LetItOut
