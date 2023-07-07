@@ -75,6 +75,8 @@ jobs:
           aqtversion: '==3.1.*'
           py7zrversion: '==0.20.*'
           extra: '--external 7z'
+      - name: Install deployqt
+        uses: miurahr/install-linuxdeployqt-action@v1.0.1
       - name: Build
         shell: sh
         run: |
@@ -96,7 +98,7 @@ jobs:
           cd bin
           ls
           pwd
-          "Qt\${{ env.QT_VERSION }}\gcc_64\bin\linuxdeployqt.exe" build/${{ env.PROJECT }}
+          linuxdeployqt-continuous-x86_64.AppImage build/${{ env.PROJECT }}
           ls build
       - name: Archive Linux binaries
         uses: actions/upload-artifact@v2
