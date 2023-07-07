@@ -9,6 +9,7 @@ env:
   VERSION_NUMBER: 0.5
   QT_VERSION: 6.3.1
   PROJECT: "LetItOut"
+  
 
 jobs:
   build-windows:
@@ -76,7 +77,10 @@ jobs:
           py7zrversion: '==0.20.*'
           extra: '--external 7z'
       - name: Install deployqt
-        uses: miurahr/install-linuxdeployqt-action@v1.0.1
+        shell: sh
+        run: |
+          wget "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+          chmod +x linuxdeployqt-continuous-x86_64.AppImage
       - name: Build
         shell: sh
         run: |
