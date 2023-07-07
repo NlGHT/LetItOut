@@ -35,4 +35,6 @@ jobs:
       - name: Build
         shell: cmd
         run: |
-          cmake --build build --target all
+          mkdir build
+          cd build
+          cmake ..
