@@ -92,16 +92,6 @@ jobs:
       - name: Deploy
         shell: sh
         run: |
-          cd Qt
-          ls
-          pwd
-          cd ${{ env.QT_VERSION }}
-          ls
-          pwd
-          cd gcc_64
-          cd bin
-          ls
-          pwd
           linuxdeployqt-continuous-x86_64.AppImage build/${{ env.PROJECT }}
           ls build
       - name: Archive Linux binaries
