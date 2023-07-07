@@ -93,8 +93,8 @@ jobs:
       - name: Deploy
         shell: sh
         run: |
-          ls
-          ./linuxdeployqt-continuous-x86_64.AppImage build/${{ env.PROJECT }}
+          ./linuxdeployqt-continuous-x86_64.AppImage --appimage-extract
+          squashfs-root/usr/bin/linuxdeployqt build/${{ env.PROJECT }}
           ls build
       - name: Archive Linux binaries
         uses: actions/upload-artifact@v2
