@@ -8,6 +8,7 @@ on:
 env:
   VERSION_NUMBER: 0.5
   QT_VERSION: 6.3.1
+  PROJECT: "LetItOut"
 
 jobs:
   build-windows:
@@ -47,7 +48,8 @@ jobs:
       - name: Deploy
         shell: cmd
         run: |
-          "Qt\${{ env.QT_VERSION }}\msvc2019_64\bin\windeployqt.exe" build/Debug/LetItOut.exe
+          "Qt\${{ env.QT_VERSION }}\msvc2019_64\bin\windeployqt.exe" build/Debug/${{ env.PROJECT }}.exe
+          dir "build\Debug"
   build-linux:
     runs-on: ubuntu-latest
     
@@ -82,3 +84,13 @@ jobs:
           cd build
           cmake -DCMAKE_BUILD_TYPE=Release ..
           cmake --build .
+      - name: Deploy
+        shell: sh
+        run: |
+          "Qt\${{ env.QT_VERSION }}\gcc_64\bin\linuxdeployqt.exe" build/${{ env.PROJECT }}
+          ls build
+      - name: Archive Linux binaries
+        uses: actions/upload-artifact@v2
+        with:
+          name: linux-binaries
+          path: "./build"
