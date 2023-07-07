@@ -70,7 +70,6 @@ jobs:
           cache-key-prefix: 'install-qt-action'
           setup-python: 'true'
           tools: 'tools_cmake tools_ninja'
-          archives: 'qttools qtbase qtwayland icu'
           set-env: 'true'
           tools-only: 'false'
           aqtversion: '==3.1.*'
