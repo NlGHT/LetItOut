@@ -87,6 +87,10 @@ jobs:
       - name: Deploy
         shell: sh
         run: |
+          cd Qt
+          ls
+          cd ${{ env.QT_VERSION }}
+          ls
           "Qt\${{ env.QT_VERSION }}\gcc_64\bin\linuxdeployqt.exe" build/${{ env.PROJECT }}
           ls build
       - name: Archive Linux binaries
