@@ -22,7 +22,7 @@ jobs:
           arch: 'win64_msvc2019_64'
           dir: '${{ github.workspace }}/'
           install-deps: 'true'
-          cache: 'false'
+          cache: 'true'
           cache-key-prefix: 'install-qt-action'
           setup-python: 'true'
           tools: 'tools_cmake tools_vcredist,qt.tools.vcredist_msvc2019_x64 tools_ninja'
@@ -41,3 +41,7 @@ jobs:
           cmake ..
           cd ..
           cmake --build build
+      - name: Deploy
+        shell: cmd
+        run: |
+          windeploy ./build/LetItOut
