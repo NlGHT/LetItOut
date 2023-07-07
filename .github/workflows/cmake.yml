@@ -4,11 +4,15 @@ on:
   push:
     branches:
       - main
+      
+env:
+  VERSION_NUMBER: 0.5
+  QT_VERSION: 6.3.1
 
 jobs:
-  build:
+  build-windows:
     runs-on: windows-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -16,7 +20,7 @@ jobs:
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
         with:
-          version: '6.4.3'
+          version: '${{ env.QT_VERSION }}'
           host: 'windows'
           target: 'desktop'
           arch: 'win64_msvc2019_64'
@@ -43,4 +47,38 @@ jobs:
       - name: Deploy
         shell: cmd
         run: |
-          "Qt\6.4.3\msvc2019_64\bin\windeployqt.exe" build/Debug/LetItOut.exe
+          "Qt\${{ env.QT_VERSION }}\msvc2019_64\bin\windeployqt.exe" build/Debug/LetItOut.exe
+  build-linux:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: '${{ env.QT_VERSION }}'
+          host: 'linux'
+          target: 'desktop'
+          arch: 'gcc_64'
+          dir: '${{ github.workspace }}/'
+          install-deps: 'true'
+          cache: 'true'
+          cache-key-prefix: 'install-qt-action'
+          setup-python: 'true'
+          tools: 'tools_cmake tools_ninja'
+          archives: 'qttools qtbase qtwayland icu'
+          set-env: 'true'
+          tools-only: 'false'
+          aqtversion: '==3.1.*'
+          py7zrversion: '==0.20.*'
+          extra: '--external 7z'
+      - name: Build
+        shell: sh
+        run: |
+          dir
+          mkdir build
+          cd build
+          cmake -DCMAKE_BUILD_TYPE=Release ..
+          cmake --build .
