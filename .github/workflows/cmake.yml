@@ -49,10 +49,7 @@ jobs:
       - name: Deploy
         shell: cmd
         run: |
-          dir ${{ env.QT_PATH }}\${{ env.QT_VERSION }}
-          dir ${{ env.QT_PATH }}\${{ env.QT_VERSION }}\win64_mingw
-          dir ${{ env.QT_PATH }}\${{ env.QT_VERSION }}\win64_mingw\bin
-          "${{ env.QT_PATH }}\${{ env.QT_VERSION }}\win64_mingw\bin\windeployqt.exe" build/${{ env.PROJECT }}.exe
+          "${{ env.QT_PATH }}\${{ env.QT_VERSION }}\mingw_64\bin\windeployqt.exe" build/${{ env.PROJECT }}.exe
           dir "build"
       - name: Tar build
         shell: cmd
