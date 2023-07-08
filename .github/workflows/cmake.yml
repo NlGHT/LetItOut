@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
@@ -51,12 +51,17 @@ jobs:
         run: |
           "Qt\${{ env.QT_VERSION }}\msvc2019_64\bin\windeployqt.exe" build/Debug/${{ env.PROJECT }}.exe
           dir "build\Debug"
+      - name: Archive Windows binaries
+        uses: actions/upload-artifact@v3
+        with:
+          name: windows-binaries
+          path: "./build/Debug"
   build-linux:
     runs-on: ubuntu-latest
     
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
@@ -85,8 +90,33 @@ jobs:
           cmake -DCMAKE_BUILD_TYPE=Release ..
           cmake --build .
           cd ..
-      - name: Archive Linux binaries
-        uses: actions/upload-artifact@v2
+      - name: Tar build
+        run: tar -cvf linux_build.tar build
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
         with:
           name: linux-binaries
-          path: "./build"
+          path: linux_build.tar  
+  release:
+    needs: [build-windows, build-linux]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Download Windows binaries
+        uses: actions/download-artifact@v3
+        with:
+          name: windows-binaries
+
+      - name: Download Linux binaries
+        uses: actions/download-artifact@v3
+        with:
+          name: linux-binaries
+      - name: Examine files
+        shell: sh
+        run: |
+          ls
+          ls linux-binaries
+          ls windows-binaries
