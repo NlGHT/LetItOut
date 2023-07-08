@@ -58,4 +58,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: windows-binaries
-          path: "windows_build.tar
+          path: "windows_build.tar"
