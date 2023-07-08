@@ -109,11 +109,13 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: windows-binaries
+          path: windows-binaries
 
       - name: Download Linux binaries
         uses: actions/download-artifact@v3
         with:
           name: linux-binaries
+          path: linux-binaries
       - name: Examine files
         shell: sh
         run: |
