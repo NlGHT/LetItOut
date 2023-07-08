@@ -120,5 +120,3 @@ jobs:
         shell: sh
         run: |
           ls
-          ls linux-binaries
-          ls windows-binaries
