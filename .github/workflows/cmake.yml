@@ -45,7 +45,7 @@ jobs:
           dir
           mkdir build
           "${{ env.QT_PATH }}\Tools\CMake_64\bin\cmake.exe" -S . -B build "-DCMAKE_GENERATOR:STRING=Ninja" "-DCMAKE_BUILD_TYPE:STRING=Release" "-DQT_QMAKE_EXECUTABLE:FILEPATH=${{ env.QT_PATH }}/${{ env.QT_VERSION }}/mingw_64/bin/qmake.exe" "-DCMAKE_PREFIX_PATH:PATH=${{ env.QT_PATH }}/${{ env.QT_VERSION }}/mingw_64" "-DCMAKE_C_COMPILER:FILEPATH=${{ env.QT_PATH }}/Tools/mingw1120_64/bin/gcc.exe" "-DCMAKE_CXX_COMPILER:FILEPATH=${{ env.QT_PATH }}/Tools/mingw1120_64/bin/g++.exe"
-          cmake --build .
+          cmake --build build
       - name: Deploy
         shell: cmd
         run: |
