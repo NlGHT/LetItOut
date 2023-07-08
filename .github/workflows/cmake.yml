@@ -25,13 +25,13 @@ jobs:
           version: '${{ env.QT_VERSION }}'
           host: 'windows'
           target: 'desktop'
-          arch: 'win64_msvc2019_64'
+          arch: 'win64_mingw'
           dir: '${{ github.workspace }}/'
           install-deps: 'true'
           cache: 'true'
           cache-key-prefix: 'install-qt-action'
           setup-python: 'true'
-          tools: 'tools_cmake tools_vcredist,qt.tools.vcredist_msvc2019_x64 tools_ninja'
+          tools: 'tools_cmake tools_mingw90 tools_ninja'
           archives: 'qttools qtbase MinGW'
           set-env: 'true'
           tools-only: 'false'
@@ -49,13 +49,17 @@ jobs:
       - name: Deploy
         shell: cmd
         run: |
-          "Qt\${{ env.QT_VERSION }}\msvc2019_64\bin\windeployqt.exe" build/Debug/${{ env.PROJECT }}.exe
-          dir "build\Debug"
+          "Qt\${{ env.QT_VERSION }}\win64_mingw\bin\windeployqt.exe" build/${{ env.PROJECT }}.exe
+          dir "build"
+      - name: Tar build
+        shell: cmd
+        run: |
+          "C:\Windows\System32\tar.exe" -cvf windows_build.tar build
       - name: Archive Windows binaries
         uses: actions/upload-artifact@v3
         with:
           name: windows-binaries
-          path: "./build/Debug"
+          path: "windows_build.tar"
   build-linux:
     runs-on: ubuntu-latest
     
@@ -102,9 +106,6 @@ jobs:
     needs: [build-windows, build-linux]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
       - name: Download Windows binaries
         uses: actions/download-artifact@v3
         with:
