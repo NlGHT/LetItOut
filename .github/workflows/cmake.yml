@@ -101,7 +101,7 @@ jobs:
           cmake -DCMAKE_BUILD_TYPE=Release ..
           cmake --build .
       - name: Tar build
-        run: tar -cvf ${{ env.PROJECT }}-Linux.tar *
+        run: tar -cvf ${{ env.PROJECT }}-Linux.tar build/*
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
@@ -122,8 +122,11 @@ jobs:
         with:
           name: linux-binaries
           path: release
-      - name: Release
-        uses: fnkr/github-action-ghr@v1
-        env:
-          GHR_PATH: release/
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            release/*
