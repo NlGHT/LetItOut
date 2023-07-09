@@ -23,8 +23,8 @@
 	border-color: #3B57CF;
 }
 
-.list-widget::item:selected {
-
+.list-widget::item:focus {
+	background-color: mediumseagreen;
 }
 
 .input-field {
