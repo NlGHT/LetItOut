@@ -66,12 +66,12 @@ jobs:
       - name: Tar build
         shell: cmd
         run: |
-          Compress-Archive -Path "/build" -DestinationPath "${{ env.PROJECT }}-Windows.zip"
+          "C:\Windows\System32\tar.exe" -acf ${{ env.PROJECT }}-Windows.zip -C build .
       - name: Archive Windows binaries
         uses: actions/upload-artifact@v3
         with:
           name: windows-binaries
-          path: "bui/d${{ env.PROJECT }}-Windows.zip"
+          path: "${{ env.PROJECT }}-Windows.zip"
           
   build-linux:
     runs-on: ubuntu-latest
@@ -115,7 +115,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: linux-binaries
-          path: build/${{ env.PROJECT }}-Linux.tar  
+          path: ${{ env.PROJECT }}-Linux.tar.gz
   release:
     needs: [build-windows, build-linux]
     runs-on: ubuntu-latest
