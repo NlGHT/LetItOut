@@ -66,6 +66,7 @@ jobs:
       - name: Tar build
         shell: cmd
         run: |
+          cd build
           "C:\Windows\System32\tar.exe" -acf ${{ env.PROJECT }}-Windows.zip *
       - name: Archive Windows binaries
         uses: actions/upload-artifact@v3
@@ -107,7 +108,10 @@ jobs:
           cmake -DCMAKE_BUILD_TYPE=Release ..
           cmake --build .
       - name: Tar build
-        run: tar -cvf ${{ env.PROJECT }}-Linux.tar build/*
+        shell: sh
+        run: |
+          cd build
+          tar -cvf ${{ env.PROJECT }}-Linux.tar *
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
