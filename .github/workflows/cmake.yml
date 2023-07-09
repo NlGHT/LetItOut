@@ -12,6 +12,12 @@ env:
   QT_PATH: D:\a\LetItOut\LetItOut\Qt
   MINGW_VERSION: mingw1120_64
   
+permissions:
+  id-token: "write"
+  contents: "write"
+  packages: "write"
+  pull-requests: "read"
+  
 
 jobs:
   build-windows:
