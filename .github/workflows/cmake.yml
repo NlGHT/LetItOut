@@ -10,6 +10,7 @@ env:
   QT_VERSION: 6.3.1
   PROJECT: "LetItOut"
   QT_PATH: D:\a\LetItOut\LetItOut\Qt
+  MINGW_VERSION: mingw810_64
   
 
 jobs:
@@ -46,7 +47,7 @@ jobs:
           ls Qt\Tools\MinGW
           dir
           mkdir build
-          "${{ env.QT_PATH }}\Tools\CMake_64\bin\cmake.exe" -S . -B build "-DCMAKE_BUILD_TYPE:STRING=Release" "-DQT_QMAKE_EXECUTABLE:FILEPATH=${{ env.QT_PATH }}/${{ env.QT_VERSION }}/mingw_64/bin/qmake.exe" "-DCMAKE_PREFIX_PATH:PATH=${{ env.QT_PATH }}/${{ env.QT_VERSION }}/mingw_64" "-DCMAKE_C_COMPILER:FILEPATH=${{ env.QT_PATH }}/Tools/MinGW/bin/gcc.exe" "-DCMAKE_CXX_COMPILER:FILEPATH=${{ env.QT_PATH }}/Tools/MinGW/bin/g++.exe"
+          "${{ env.QT_PATH }}\Tools\CMake_64\bin\cmake.exe" -S . -B build "-DCMAKE_GENERATOR:STRING=Ninja" "-DCMAKE_BUILD_TYPE:STRING=Release" "-DQT_QMAKE_EXECUTABLE:FILEPATH=${{ env.QT_PATH }}/${{ env.QT_VERSION }}/mingw_64/bin/qmake.exe" "-DCMAKE_PREFIX_PATH:PATH=${{ env.QT_PATH }}/${{ env.QT_VERSION }}/mingw_64" "-DCMAKE_C_COMPILER:FILEPATH=${{ env.QT_PATH }}/Tools/${{ env.MINGW_VERSION }}/bin/gcc.exe" "-DCMAKE_CXX_COMPILER:FILEPATH=${{ env.QT_PATH }}/Tools/${{ env.MINGW_VERSION }}/bin/g++.exe"
           cmake --build build
       - name: Deploy
         shell: cmd
