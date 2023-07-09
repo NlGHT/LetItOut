@@ -57,7 +57,6 @@ jobs:
           cd build
           del /f /s /q .ninja_deps .ninja_log .qt build.ninja CMakeCache.txt cmake_install.cmake compile_commands.json D3Dcompiler_47.dll CMakeFiles imageformats translations
           rmdir /s /q CMakeFiles imageformats translations .qt
-          dir "build"
       - name: Tar build
         shell: cmd
         run: |
@@ -67,3 +66,64 @@ jobs:
         with:
           name: windows-binaries
           path: "${{ env.PROJECT }}-Windows.zip"
+          
+  build-linux:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: '${{ env.QT_VERSION }}'
+          host: 'linux'
+          target: 'desktop'
+          arch: 'gcc_64'
+          dir: '${{ github.workspace }}/'
+          install-deps: 'true'
+          cache: 'true'
+          cache-key-prefix: 'install-qt-action'
+          setup-python: 'true'
+          tools: 'tools_cmake tools_ninja'
+          set-env: 'true'
+          tools-only: 'false'
+          aqtversion: '==3.1.*'
+          py7zrversion: '==0.20.*'
+          extra: '--external 7z'
+      - name: Build
+        shell: sh
+        run: |
+          dir
+          mkdir build
+          cd build
+          cmake -DCMAKE_BUILD_TYPE=Release ..
+          cmake --build .
+      - name: Tar build
+        run: tar -cvf ${{ env.PROJECT }}-Linux.tar *
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: linux-binaries
+          path: ${{ env.PROJECT }}-Linux.tar  
+  release:
+    needs: [build-windows, build-linux]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Windows binaries
+        uses: actions/download-artifact@v3
+        with:
+          name: windows-binaries
+          path: release
+      - name: Download Linux binaries
+        uses: actions/download-artifact@v3
+        with:
+          name: linux-binaries
+          path: release
+      - name: Release
+        uses: fnkr/github-action-ghr@v1
+        env:
+          GHR_PATH: release/
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
