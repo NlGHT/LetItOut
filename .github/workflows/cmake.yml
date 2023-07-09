@@ -33,7 +33,7 @@ jobs:
           cache: 'true'
           cache-key-prefix: 'install-qt-action'
           setup-python: 'true'
-          tools: 'tools_cmake tools_mingw90 tools_mingw tools_ninja'
+          tools: 'tools_cmake tools_mingw90 tools_ninja'
           archives: 'qttools qtbase MinGW'
           set-env: 'true'
           tools-only: 'false'
@@ -55,7 +55,7 @@ jobs:
           copy "${{ env.QT_PATH }}\${{ env.QT_VERSION }}\mingw_64\bin\libstdc++-6.dll" build
           copy "${{ env.QT_PATH }}\${{ env.QT_VERSION }}\mingw_64\bin\libwinpthread-1.dll" build
           cd build
-          del /p CMakeFiles .ninja_deps .ninja_log .qt build.ninja CMakeCache.txt CMakeFiles cmake_install.cmake compile_commands.json D3Dcompiler_47.dll imageformats translations
+          del /Q CMakeFiles .ninja_deps .ninja_log .qt build.ninja CMakeCache.txt CMakeFiles cmake_install.cmake compile_commands.json D3Dcompiler_47.dll imageformats translations
           cd ..
           dir "build"
       - name: Tar build
