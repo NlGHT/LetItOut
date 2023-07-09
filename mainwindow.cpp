@@ -106,10 +106,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 			}
 		} else if (event->key() == Qt::Key_Return) {
 			listWidget->editItem(currentItem);
+		} else if (event->key() == Qt::Key_Delete) {
+			delete listWidget->currentItem();
 		}
-	} else if (event->key() == Qt::Key_Delete) {
-		delete listWidget->currentItem();
-	} else if (event->key() == Qt::Key_Tab) {
+	}  else if (event->key() == Qt::Key_Tab) {
 		if (!listWidget->hasFocus()) {
 			listWidget->focusWidget();
 		} else {
