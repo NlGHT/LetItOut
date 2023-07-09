@@ -66,13 +66,12 @@ jobs:
       - name: Tar build
         shell: cmd
         run: |
-          cd build
-          "C:\Windows\System32\tar.exe" -acf ${{ env.PROJECT }}-Windows.zip *
+          Compress-Archive -Path "/build" -DestinationPath "${{ env.PROJECT }}-Windows.zip"
       - name: Archive Windows binaries
         uses: actions/upload-artifact@v3
         with:
           name: windows-binaries
-          path: "${{ env.PROJECT }}-Windows.zip"
+          path: "bui/d${{ env.PROJECT }}-Windows.zip"
           
   build-linux:
     runs-on: ubuntu-latest
@@ -110,14 +109,13 @@ jobs:
       - name: Tar build
         shell: sh
         run: |
-          cd build
-          tar -cvf ${{ env.PROJECT }}-Linux.tar *
+          tar -czvf ${{ env.PROJECT }}-Linux.tar.gz -C build .
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: linux-binaries
-          path: ${{ env.PROJECT }}-Linux.tar  
+          path: build/${{ env.PROJECT }}-Linux.tar  
   release:
     needs: [build-windows, build-linux]
     runs-on: ubuntu-latest
