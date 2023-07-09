@@ -10,7 +10,7 @@ env:
   QT_VERSION: 6.3.1
   PROJECT: "LetItOut"
   QT_PATH: D:\a\LetItOut\LetItOut\Qt
-  MINGW_VERSION: mingw730_64
+  MINGW_VERSION: mingw1120_64
   
 
 jobs:
@@ -51,6 +51,12 @@ jobs:
         shell: cmd
         run: |
           "${{ env.QT_PATH }}\${{ env.QT_VERSION }}\mingw_64\bin\windeployqt.exe" build/${{ env.PROJECT }}.exe
+          copy "${{ env.QT_PATH }}\${{ env.QT_VERSION }}\mingw_64\bin\libgcc_s_seh-1.dll" build
+          copy "${{ env.QT_PATH }}\${{ env.QT_VERSION }}\mingw_64\bin\libstdc++-6.dll" build
+          copy "${{ env.QT_PATH }}\${{ env.QT_VERSION }}\mingw_64\bin\libwinpthread-1.dll" build
+          cd build
+          del /p CMakeFiles .ninja_deps .ninja_log .qt build.ninja CMakeCache.txt CMakeFiles cmake_install.cmake compile_commands.json D3Dcompiler_47.dll imageformats translations
+          cd ..
           dir "build"
       - name: Tar build
         shell: cmd
