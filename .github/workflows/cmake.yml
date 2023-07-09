@@ -57,14 +57,13 @@ jobs:
           cd build
           del /f /s /q .ninja_deps .ninja_log .qt build.ninja CMakeCache.txt cmake_install.cmake compile_commands.json D3Dcompiler_47.dll CMakeFiles imageformats translations
           rmdir /s /q CMakeFiles imageformats translations .qt
-          cd ..
           dir "build"
       - name: Tar build
         shell: cmd
         run: |
-          "C:\Windows\System32\tar.exe" -cvf windows_build.tar build
+          "C:\Windows\System32\tar.exe" -acf ${{ env.PROJECT }}-Windows.zip *
       - name: Archive Windows binaries
         uses: actions/upload-artifact@v3
         with:
           name: windows-binaries
-          path: "windows_build.tar"
+          path: "${{ env.PROJECT }}-Windows.zip"
