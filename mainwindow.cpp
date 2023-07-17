@@ -14,6 +14,7 @@
 #include <QShortcut>
 #include <QDebug>
 #include <iostream>
+#include <qnamespace.h>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -29,8 +30,11 @@ MainWindow::MainWindow(QWidget *parent)
         std::cout << "HI THERE" << std::endl;
     }
 
-    QShortcut *shortcut = new QShortcut(Qt::Key_F11, this);
-    connect(shortcut, &QShortcut::activated, this, &MainWindow::toggleFullscreen);
+    QShortcut *fullscreenShortcut = new QShortcut(Qt::Key_F11, this);
+    connect(fullscreenShortcut, &QShortcut::activated, this, &MainWindow::toggleFullscreen);
+
+    QShortcut *borderlessShortCut = new QShortcut(Qt::Key_F12, this);
+    connect(borderlessShortCut , &QShortcut::activated, this, &MainWindow::toggleWindowDecorations);
 }
 
 void MainWindow::onSubmitButtonClicked()
@@ -115,7 +119,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 		} else {
 			inputField->focusWidget();
 		}
-    }
+    } else  if (event->key() == Qt::Key_R || event->key() == Qt::Key_F5) {
+		resetFields();
+	}
 }
 
 void MainWindow::toggleFullscreen()
@@ -126,7 +132,18 @@ void MainWindow::toggleFullscreen()
         showFullScreen();
 }
 
+void MainWindow::toggleWindowDecorations() {
+	Qt::WindowFlags flags = windowFlags();
+	if (flags & Qt::FramelessWindowHint) {
+		// Add window decorations
+		setWindowFlags(flags & ~Qt::FramelessWindowHint);
+	} else {
+		// Remove window decorations
+		setWindowFlags(flags | Qt::FramelessWindowHint);
+	}
 
+	show(); // Update the window to reflect the changes
+}
 
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 {
@@ -179,4 +196,10 @@ void MainWindow::addToList(const QString &text)
 	connect(listWidget, &QListWidget::itemDoubleClicked, this, &MainWindow::onItemDoubleClicked);
 	listWidget->addItem(item);
 	listWidget->scrollToBottom();
+}
+
+void MainWindow::resetFields()
+{
+	listWidget->clear();
+	inputField->clear();
 }
