@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+
 #include <QVBoxLayout>
 #include <QScrollArea>
 #include <QListWidget>
@@ -12,6 +13,9 @@
 #include <QFile>
 #include <QResource>
 #include <QShortcut>
+#include <QFileDialog>
+#include <QMessageBox>
+
 #include <QDebug>
 #include <iostream>
 
@@ -29,8 +33,11 @@ MainWindow::MainWindow(QWidget *parent)
         std::cout << "HI THERE" << std::endl;
     }
 
-    QShortcut *shortcut = new QShortcut(Qt::Key_F11, this);
-    connect(shortcut, &QShortcut::activated, this, &MainWindow::toggleFullscreen);
+    QShortcut *fullscreenShortcut = new QShortcut(Qt::Key_F11, this);
+    connect(fullscreenShortcut, &QShortcut::activated, this, &MainWindow::toggleFullscreen);
+
+    QShortcut *borderlessShortCut = new QShortcut(Qt::Key_F12, this);
+    connect(borderlessShortCut , &QShortcut::activated, this, &MainWindow::toggleWindowDecorations);
 }
 
 void MainWindow::onSubmitButtonClicked()
@@ -115,7 +122,11 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 		} else {
 			inputField->focusWidget();
 		}
-    }
+    } else  if (event->key() == Qt::Key_R || event->key() == Qt::Key_F5) {
+		resetFields();
+	} else if (event->modifiers() == Qt::ControlModifier && event->key() == Qt::Key_S) {
+		saveAsTextFile();
+	}
 }
 
 void MainWindow::toggleFullscreen()
@@ -126,7 +137,53 @@ void MainWindow::toggleFullscreen()
         showFullScreen();
 }
 
+void MainWindow::toggleWindowDecorations() {
+	Qt::WindowFlags flags = windowFlags();
+	if (flags & Qt::FramelessWindowHint) {
+		// Add window decorations
+		setWindowFlags(flags & ~Qt::FramelessWindowHint);
+	} else {
+		// Remove window decorations
+		setWindowFlags(flags | Qt::FramelessWindowHint);
+	}
 
+	show(); // Update the window to reflect the changes
+}
+
+void MainWindow::saveAsTextFile()
+{
+	if (listWidget->count() > 0) {
+		// Prompt for the "Save As" window
+		// Prompt for "Save As" window
+		QFileDialog dialog(nullptr, "Save As");
+		dialog.setDefaultSuffix("txt");
+		dialog.setAcceptMode(QFileDialog::AcceptSave);
+		dialog.setNameFilter("Text Files (*.txt);;All Files (*)");
+
+		if (dialog.exec() != QDialog::Accepted) {
+			// User canceled the save operation or didn't specify a file
+			return;
+		}
+
+		QStringList filePaths = dialog.selectedFiles();
+		QString filePath = filePaths.first();
+
+		QFile file(filePath);
+		if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+			// Failed to open the file
+			QMessageBox::critical(nullptr, "Error", "Failed to open the file for writing.");
+			return;
+		}
+
+		QTextStream out(&file);
+		for (int i = 0; i < listWidget->count(); ++i) {
+			QListWidgetItem* item = listWidget->item(i);
+			out << item->text() << "\n";
+		}
+
+		file.close();
+	}
+}
 
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 {
@@ -179,4 +236,10 @@ void MainWindow::addToList(const QString &text)
 	connect(listWidget, &QListWidget::itemDoubleClicked, this, &MainWindow::onItemDoubleClicked);
 	listWidget->addItem(item);
 	listWidget->scrollToBottom();
+}
+
+void MainWindow::resetFields()
+{
+	listWidget->clear();
+	inputField->clear();
 }

@@ -18,17 +18,20 @@ class MainWindow : public QMainWindow
 
 		private slots:
 			void onSubmitButtonClicked();
-		void onItemDoubleClicked(QListWidgetItem *item);
-		// Event handlers
-		void dragEnterEvent(QDragEnterEvent *event) override;
-		void dragMoveEvent(QDragMoveEvent *event) override;
-		void dropEvent(QDropEvent *event) override;
-		void keyPressEvent(QKeyEvent *event) override;
+			void onItemDoubleClicked(QListWidgetItem *item);
+			// Event handlers
+			void dragEnterEvent(QDragEnterEvent *event) override;
+			void dragMoveEvent(QDragMoveEvent *event) override;
+			void dropEvent(QDropEvent *event) override;
+			void keyPressEvent(QKeyEvent *event) override;
 
 	private:
 		void setupUi();
         void addToList(const QString &text);
         void toggleFullscreen();
+		void resetFields();
+		void toggleWindowDecorations();
+		void saveAsTextFile();
 
 		QScrollArea *scrollArea;
 		QListWidget *listWidget;
