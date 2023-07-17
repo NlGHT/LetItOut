@@ -1,4 +1,5 @@
 .list-widget {
+        outline: 0;
         font-size: 24pt;
     border: none;
 	background-color: #bac8ff;
