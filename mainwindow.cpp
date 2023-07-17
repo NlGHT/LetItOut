@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+
 #include <QVBoxLayout>
 #include <QScrollArea>
 #include <QListWidget>
@@ -12,9 +13,11 @@
 #include <QFile>
 #include <QResource>
 #include <QShortcut>
+#include <QFileDialog>
+#include <QMessageBox>
+
 #include <QDebug>
 #include <iostream>
-#include <qnamespace.h>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -121,6 +124,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 		}
     } else  if (event->key() == Qt::Key_R || event->key() == Qt::Key_F5) {
 		resetFields();
+	} else if (event->modifiers() == Qt::ControlModifier && event->key() == Qt::Key_S) {
+		saveAsTextFile();
 	}
 }
 
@@ -143,6 +148,41 @@ void MainWindow::toggleWindowDecorations() {
 	}
 
 	show(); // Update the window to reflect the changes
+}
+
+void MainWindow::saveAsTextFile()
+{
+	if (listWidget->count() > 0) {
+		// Prompt for the "Save As" window
+		// Prompt for "Save As" window
+		QFileDialog dialog(nullptr, "Save As");
+		dialog.setDefaultSuffix("txt");
+		dialog.setAcceptMode(QFileDialog::AcceptSave);
+		dialog.setNameFilter("Text Files (*.txt);;All Files (*)");
+
+		if (dialog.exec() != QDialog::Accepted) {
+			// User canceled the save operation or didn't specify a file
+			return;
+		}
+
+		QStringList filePaths = dialog.selectedFiles();
+		QString filePath = filePaths.first();
+
+		QFile file(filePath);
+		if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+			// Failed to open the file
+			QMessageBox::critical(nullptr, "Error", "Failed to open the file for writing.");
+			return;
+		}
+
+		QTextStream out(&file);
+		for (int i = 0; i < listWidget->count(); ++i) {
+			QListWidgetItem* item = listWidget->item(i);
+			out << item->text() << "\n";
+		}
+
+		file.close();
+	}
 }
 
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)
