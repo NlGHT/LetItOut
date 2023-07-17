@@ -30,7 +30,6 @@ MainWindow::MainWindow(QWidget *parent)
     if (qssFile.open(QFile::ReadOnly)) {
         QString qss = qssFile.readAll();
         setStyleSheet(qss);
-        std::cout << "HI THERE" << std::endl;
     }
 
     QShortcut *fullscreenShortcut = new QShortcut(Qt::Key_F11, this);
@@ -86,6 +85,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 			inputField->clearFocus();
 			listWidget->focusWidget();
 		}
+    } else  if (event->key() == Qt::Key_R || event->key() == Qt::Key_F5) {
+		resetFields();
+	} else if (event->modifiers() == Qt::ControlModifier && event->key() == Qt::Key_S) {
+		saveAsTextFile();
 	} else if (listWidget->hasFocus()) {
 		auto currentItem = listWidget->currentItem();
 		int currentItemIndex = listWidget->row(currentItem);
@@ -122,10 +125,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 		} else {
 			inputField->focusWidget();
 		}
-    } else  if (event->key() == Qt::Key_R || event->key() == Qt::Key_F5) {
-		resetFields();
-	} else if (event->modifiers() == Qt::ControlModifier && event->key() == Qt::Key_S) {
-		saveAsTextFile();
 	}
 }
 
