@@ -72,7 +72,7 @@ jobs:
         run: |
           ls build
           mkdir .\installer\packages\com.night.letitout\data
-          move build\* .\installer\packages\com.night.letitout\data
+          xcopy /s /i /y build\* .\installer\packages\com.night.letitout\data\
           ls .\installer\packages\com.night.letitout\data
           ls "${{ env.QT_PATH }}\Tools\QtInstallerFramework"
           "${{ env.QT_PATH }}\Tools\QtInstallerFramework\4.6\bin\binarycreator.exe" --offline-only -c installer/config/config.xml -p installer/packages ${{ env.PROJECT }}-setup.exe
