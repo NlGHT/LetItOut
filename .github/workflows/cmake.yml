@@ -4,20 +4,20 @@ on:
   push:
     branches:
       - main
-      
+
 env:
   VERSION_NUMBER: 0.5
   QT_VERSION: 6.3.1
   PROJECT: "LetItOut"
   QT_PATH: D:\a\LetItOut\LetItOut\Qt
   MINGW_VERSION: mingw1120_64
-  
+
 permissions:
   id-token: "write"
   contents: "write"
   packages: "write"
   pull-requests: "read"
-  
+
 
 jobs:
   build-windows:
@@ -39,7 +39,7 @@ jobs:
           cache: 'true'
           cache-key-prefix: 'install-qt-action'
           setup-python: 'true'
-          tools: 'tools_cmake tools_mingw90 tools_ninja'
+          tools: 'tools_ifw tools_cmake tools_mingw90 tools_ninja'
           archives: 'qttools qtbase MinGW'
           set-env: 'true'
           tools-only: 'false'
@@ -67,15 +67,25 @@ jobs:
         shell: cmd
         run: |
           "C:\Windows\System32\tar.exe" -acf ${{ env.PROJECT }}-Windows.zip -C build *
+      - name: Make installer
+        shell: cmd
+        run: |
+          move build/* .\installer\packages\com.night.letitout\data
+          binarycreator.exe --offline-only -c installer/config/config.xml -p installer/packages LetItOut-setup.exe
       - name: Archive Windows binaries
         uses: actions/upload-artifact@v3
         with:
           name: windows-binaries
           path: "${{ env.PROJECT }}-Windows.zip"
-          
+      - name: Archive Windows installer
+        uses: actions/upload-artifact@v3
+        with:
+          name: windows-installer
+          path: "LetItOut-setup.exe"
+
   build-linux:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
