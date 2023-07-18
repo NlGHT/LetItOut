@@ -70,8 +70,9 @@ jobs:
       - name: Make installer
         shell: cmd
         run: |
-          dir
-          move build/* .\installer\packages\com.night.letitout\data
+          ls build
+          move .\build\* .\installer\packages\com.night.letitout\data
+          ls .\installer\packages\com.night.letitout\data
           ls "${{ env.QT_PATH }}\Tools\QtInstallerFramework"
           "${{ env.QT_PATH }}\Tools\QtInstallerFramework\4.6\bin\binarycreator.exe" --offline-only -c installer/config/config.xml -p installer/packages ${{ env.PROJECT }}-setup.exe
       - name: Archive Windows binaries
@@ -136,6 +137,11 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: windows-binaries
+          path: release
+      - name: Download Windows installer
+        uses: actions/download-artifact@v3
+        with:
+          name: windows-installer
           path: release
       - name: Download Linux binaries
         uses: actions/download-artifact@v3
