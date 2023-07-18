@@ -70,8 +70,10 @@ jobs:
       - name: Make installer
         shell: cmd
         run: |
+          dir
           move build/* .\installer\packages\com.night.letitout\data
-          binarycreator.exe --offline-only -c installer/config/config.xml -p installer/packages LetItOut-setup.exe
+          ls "${{ env.QT_PATH }}\Tools\QtInstallerFramework"
+          "${{ env.QT_PATH }}\Tools\QtInstallerFramework\4.6\bin\binarycreator.exe" --offline-only -c installer/config/config.xml -p installer/packages ${{ env.PROJECT }}-setup.exe
       - name: Archive Windows binaries
         uses: actions/upload-artifact@v3
         with:
@@ -81,7 +83,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: windows-installer
-          path: "LetItOut-setup.exe"
+          path: "${{ env.PROJECT }}-Setup.exe"
 
   build-linux:
     runs-on: ubuntu-latest
