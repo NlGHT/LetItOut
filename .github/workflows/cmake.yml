@@ -51,15 +51,15 @@ jobs:
         run: |
           dir
           mkdir build
-          "${{ env.QT_PATH }}\Tools\CMake_64\bin\cmake.exe" -S . -B build "-DCMAKE_GENERATOR:STRING=Ninja" "-DCMAKE_BUILD_TYPE:STRING=Release" "-DQT_QMAKE_EXECUTABLE:FILEPATH=${{ env.QT_PATH }}/${{ env.QT_VERSION }}/mingw_64/bin/qmake.exe" "-DCMAKE_PREFIX_PATH:PATH=${{ env.QT_PATH }}/${{ env.QT_VERSION }}/mingw_64" "-DCMAKE_C_COMPILER:FILEPATH=${{ env.QT_PATH }}/Tools/${{ env.MINGW_VERSION }}/bin/gcc.exe" "-DCMAKE_CXX_COMPILER:FILEPATH=${{ env.QT_PATH }}/Tools/${{ env.MINGW_VERSION }}/bin/g++.exe"
+          "${{ env.IQTA_TOOLS }}\CMake_64\bin\cmake.exe" -S . -B build "-DCMAKE_GENERATOR:STRING=Ninja" "-DCMAKE_BUILD_TYPE:STRING=Release" "-DQT_QMAKE_EXECUTABLE:FILEPATH=${{ env.Qt6_DIR }}/bin/qmake.exe" "-DCMAKE_PREFIX_PATH:PATH=${{ env.Qt6_DIR }}" "-DCMAKE_C_COMPILER:FILEPATH=${{ env.IQTA_TOOLS }}/${{ env.MINGW_VERSION }}/bin/gcc.exe" "-DCMAKE_CXX_COMPILER:FILEPATH=${{ env.IQTA_TOOLS }}/${{ env.MINGW_VERSION }}/bin/g++.exe"
           cmake --build build
       - name: Deploy
         shell: cmd
         run: |
-          "${{ env.QT_PATH }}\${{ env.QT_VERSION }}\mingw_64\bin\windeployqt.exe" build/${{ env.PROJECT }}.exe
-          copy "${{ env.QT_PATH }}\${{ env.QT_VERSION }}\mingw_64\bin\libgcc_s_seh-1.dll" build
-          copy "${{ env.QT_PATH }}\${{ env.QT_VERSION }}\mingw_64\bin\libstdc++-6.dll" build
-          copy "${{ env.QT_PATH }}\${{ env.QT_VERSION }}\mingw_64\bin\libwinpthread-1.dll" build
+          "${{ env.Qt6_DIR }}\bin\windeployqt.exe" build/${{ env.PROJECT }}.exe
+          copy "${{ env.Qt6_DIR }}\bin\libgcc_s_seh-1.dll" build
+          copy "${{ env.Qt6_DIR }}\bin\libstdc++-6.dll" build
+          copy "${{ env.Qt6_DIR }}\bin\libwinpthread-1.dll" build
           cd build
           del /f /s /q .ninja_deps .ninja_log .qt build.ninja CMakeCache.txt cmake_install.cmake compile_commands.json D3Dcompiler_47.dll CMakeFiles imageformats translations
           rmdir /s /q CMakeFiles imageformats translations .qt
@@ -80,8 +80,8 @@ jobs:
           mkdir .\installer\packages\com.night.letitout\data
           xcopy /s /i /y build\* .\installer\packages\com.night.letitout\data\
           ls .\installer\packages\com.night.letitout\data
-          ls "${{ env.QT_PATH }}\Tools\QtInstallerFramework"
-          "${{ env.QT_PATH }}\Tools\QtInstallerFramework\4.6\bin\binarycreator.exe" --offline-only -c installer/config/config.xml -p installer/packages ${{ env.PROJECT }}-setup.exe
+          ls "${{ env.IQTA_TOOLS }}\QtInstallerFramework"
+          "${{ env.IQTA_TOOLS }}\QtInstallerFramework\4.6\bin\binarycreator.exe" --offline-only -c installer/config/config.xml -p installer/packages ${{ env.PROJECT }}-setup.exe
       - name: Archive Windows binaries
         uses: actions/upload-artifact@v3
         with:
