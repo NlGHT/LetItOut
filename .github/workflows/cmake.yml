@@ -67,6 +67,12 @@ jobs:
         shell: cmd
         run: |
           "C:\Windows\System32\tar.exe" -acf ${{ env.PROJECT }}-Windows.zip -C build *
+      - name: Fix package release date
+        shell: powershell
+        run: |
+          $packageXmlPath = "installer\packages\com.night.letitout\meta\package.xml"
+          $newReleaseDate = (Get-Date).ToString("yyyy-MM-dd")
+          (Get-Content -Path $packageXmlPath) -replace '<ReleaseDate>.*</ReleaseDate>', "<ReleaseDate>$newReleaseDate</ReleaseDate>" | Set-Content -Path $packageXmlPath
       - name: Make installer
         shell: cmd
         run: |
