@@ -6,6 +6,10 @@ int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 
+    // Set the application icon for the window decoration
+    QIcon icon(":/resources/resources/icon.ico");
+    app.setWindowIcon(icon);
+
     MainWindow mainWindow;
 
     // Get the primary screen
