@@ -17,7 +17,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    setupUi();
+    setupUi();   
 	setMouseTracking(true);
     QResource::registerResource("://resources.qrc");
     QFile qssFile(":/qss/style.qss");
@@ -25,6 +25,10 @@ MainWindow::MainWindow(QWidget *parent)
         QString qss = qssFile.readAll();
         setStyleSheet(qss);
     }
+
+    // Set the application icon for the window decoration
+    QIcon icon(":/resources/resources/icon.ico");
+    setWindowIcon(icon);
 
     QShortcut *fullscreenShortcut = new QShortcut(Qt::Key_F11, this);
     connect(fullscreenShortcut, &QShortcut::activated, this, &MainWindow::toggleFullscreen);
