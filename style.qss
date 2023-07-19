@@ -59,11 +59,6 @@
 	margin: 0;
 }
 
-#.input-field:focus {
-#	border-color: #ffffff;
-#	background-color: #9484ea;
-#}
-
 QScrollBar:vertical {
 	background: #F0F0F0;
         width: 12pt;
@@ -79,3 +74,33 @@ QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
 QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
 	background: none;
 }
+
+.title-layout {
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+}
+
+.title-button {
+    background-color: #bac8ff;
+    border: none;
+    color: #FFF;
+    border-radius: 4px;
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-left: 0.4em;
+	margin-right: 0.4em;
+	padding: 5pt;
+	width: 1.5em;
+	height: 1.5em;
+}
+
+.title-label {
+	text-align: left;
+	margin-top: 0%;
+	margin-bottom: 0%;
+	margin-left: 5%;
+	margin-right: 6em;
+	color: #9964CA;
+	font-size: 8pt;
+}
+
