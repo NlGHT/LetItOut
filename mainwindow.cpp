@@ -19,8 +19,10 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     setupUi();
-	setMouseTracking(true);
-	setWindowFlag(Qt::FramelessWindowHint);
+    setMouseTracking(true);
+//    setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
+    setWindowFlag(Qt::FramelessWindowHint);
+
     QResource::registerResource("://resources.qrc");
     QFile qssFile(":/qss/style.qss");
     if (qssFile.open(QFile::ReadOnly)) {
@@ -110,14 +112,14 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 void MainWindow::setupUi()
 {
 	qDebug() << "SETUP UI";
-	QWidget *centralWidget = new QWidget(this);
-	centralWidget->setProperty("class", "main-layout");
-	layout = new QVBoxLayout(centralWidget);
+    QWidget *centralWidget = new QWidget(this);
+    centralWidget->setProperty("class", "main-layout");
+    layout = new QVBoxLayout(centralWidget);
 	layout->setSpacing(0);
 	layout->setContentsMargins(0, 0, 0, 0);
 
-	titleBar = new CustomTitleBar(this);
-	layout->addWidget(titleBar);
+    titleBar = new CustomTitleBar(this);
+    layout->addWidget(titleBar);
 
 	scrollArea = new QScrollArea(this);
 	scrollArea->setWidgetResizable(true);
@@ -136,7 +138,10 @@ void MainWindow::setupUi()
 	connect(inputField, &QLineEdit::returnPressed, this, &MainWindow::onInputFieldSubmit);
 	layout->addWidget(inputField);
 
-	setCentralWidget(centralWidget);
+    sizeGrip = new QSizeGrip(this);
+    layout->addWidget(sizeGrip, 0, Qt::AlignBottom | Qt::AlignRight);
+
+    setCentralWidget(centralWidget);
 
 	inputField->setFocus();
 }

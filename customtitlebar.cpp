@@ -43,18 +43,19 @@ CustomTitleBar::CustomTitleBar(QWidget* parent) : QWidget(parent) {
 }
 
 void CustomTitleBar::minimizeWindow() {
-    if (nativeParentWidget())
-        nativeParentWidget()->showMinimized();
+    nativeParentWidget()->showMinimized();
 }
 
-void CustomTitleBar::maximizeWindow() {
-    if (nativeParentWidget())
+void CustomTitleBar::maximizeWindow() {        
+    if (nativeParentWidget()->isMaximized()) {
+        nativeParentWidget()->showNormal();
+    } else {
         nativeParentWidget()->showMaximized();
+    }
 }
 
 void CustomTitleBar::closeWindow() {
-    if (nativeParentWidget())
-		nativeParentWidget()->close();
+    nativeParentWidget()->close();
 }
 
 void CustomTitleBar::mousePressEvent(QMouseEvent* event) {
@@ -65,7 +66,6 @@ void CustomTitleBar::mousePressEvent(QMouseEvent* event) {
 void CustomTitleBar::mouseMoveEvent(QMouseEvent* event) {
     if (event->buttons() & Qt::LeftButton) {
         QPoint delta = event->pos() - startPos;
-        if (nativeParentWidget())
-            nativeParentWidget()->move(nativeParentWidget()->pos() + delta);
+        nativeParentWidget()->move(nativeParentWidget()->pos() + delta);
     }
 }
