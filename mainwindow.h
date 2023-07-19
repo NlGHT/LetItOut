@@ -28,6 +28,7 @@ class MainWindow : public QMainWindow
 		void saveAsTextFile();
 		void onInputFieldSubmit();
         void addToList(const QString &text);
+		void openFile();
 
 		QScrollArea *scrollArea;
 		QListWidget *listWidget;

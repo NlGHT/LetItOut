@@ -17,7 +17,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    setupUi();   
+    setupUi();
 	setMouseTracking(true);
     QResource::registerResource("://resources.qrc");
     QFile qssFile(":/qss/style.qss");
@@ -62,6 +62,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 		resetFields();
 	} else if (event->modifiers() == Qt::ControlModifier && event->key() == Qt::Key_S) {
 		saveAsTextFile();
+	} else if (event->modifiers() == Qt::ControlModifier && event->key() == Qt::Key_O) {
+		openFile();
 	} else if (listWidget->hasFocus()) {
 		auto currentItem = listWidget->currentItem();
 		int currentItemIndex = listWidget->row(currentItem);
@@ -211,4 +213,47 @@ void MainWindow::addToList(const QString &text)
 	connect(listWidget, &QListWidget::itemDoubleClicked, this, &MainWindow::onItemDoubleClicked);
 	listWidget->addItem(item);
 	listWidget->scrollToBottom();
+}
+
+void MainWindow::openFile()
+{
+    QString filePath = QFileDialog::getOpenFileName(this, tr("Open Text File"), QString(), tr("Text Files (*.txt)"));
+    if (!filePath.isEmpty())
+    {
+        QFile file(filePath);
+        if (file.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+            QTextStream in(&file);
+			std::vector<QString> fileLines;
+            while (!in.atEnd())
+            {
+                QString line = in.readLine().trimmed();
+				if (line.length() > 0)
+					fileLines.push_back(line);
+            }
+
+			if (fileLines.size() > 0)
+			{
+				// Initialise to yes because if the listWidget size is 0 then no confirmation needed
+				QMessageBox::StandardButton reply = QMessageBox::Yes;
+				if (listWidget->count() > 0)
+				{
+					// Ask for confirmation
+					reply = QMessageBox::question(this, tr("Confirmation"), tr("Are you sure you want to replace everything?"), QMessageBox::Yes | QMessageBox::No);
+				}
+
+				if (reply == QMessageBox::Yes)
+				{
+					resetFields();
+
+					for (const QString &line : fileLines)
+					{
+						addToList(line);
+					}
+				}
+			}
+
+            file.close();
+        }
+    }
 }
