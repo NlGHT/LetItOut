@@ -163,3 +163,10 @@ jobs:
           title: "Development Build"
           files: |
             release/*
+      - uses: geekyeggo/delete-artifact@v2
+        with:
+            name: |
+                windows-binaries
+                windows-installer
+                linux-binaries
+            failOnError: false
