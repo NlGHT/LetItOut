@@ -7,6 +7,9 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 add_subdirectory(framelesshelper)
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
 
+# Add the QT_NO_GLIB definition to exclude the GTK wrapper
+add_definitions(-DQT_NO_GLIB)
+
 qt6_add_resources(QT_RESOURCES resources.qrc)
 qt6_wrap_cpp(MOC_SOURCES mainwindow.h customtitlebar.h)
 set(WINDOWS_ICON_RESOURCE "${CMAKE_CURRENT_SOURCE_DIR}/resources/letitout.rc")
