@@ -33,7 +33,6 @@ class MainWindow : public QMainWindow
 		void openFile();
 
 		QVBoxLayout* layout;
-        QSizeGrip* sizeGrip;
 		QScrollArea* scrollArea;
 		QListWidget* listWidget;
 		QLineEdit* inputField;

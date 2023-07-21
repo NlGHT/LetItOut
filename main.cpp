@@ -1,9 +1,13 @@
 #include <QApplication>
 #include <QSettings>
 #include "mainwindow.h"
+#include <FramelessHelper/Core/framelesshelpercore_global.h>
+
+FRAMELESSHELPER_USE_NAMESPACE
 
 int main(int argc, char *argv[])
 {
+    FramelessHelper::Core::initialize();
 	QApplication app(argc, argv);
 
     MainWindow mainWindow;
@@ -26,6 +30,19 @@ int main(int argc, char *argv[])
 
     // Set the window size
     mainWindow.resize(windowWidth, windowHeight);
+
+    // Get the primary screen or the first available screen
+    QScreen *primaryScreen = QGuiApplication::primaryScreen();
+    if (!primaryScreen) {
+        qFatal("No screen found!");
+    }
+
+    // Calculate the position to place the window at the center of the screen
+    int xPos = (screenGeometry.width() - mainWindow.width()) / 2;
+    int yPos = (screenGeometry.height() - mainWindow.height()) / 2;
+
+    // Move the window to the calculated position
+    mainWindow.move(xPos, yPos);
 
     // Show the window
     mainWindow.show();

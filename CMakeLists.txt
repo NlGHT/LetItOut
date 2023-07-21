@@ -4,6 +4,7 @@ project(LetItOut)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+add_subdirectory(framelesshelper)
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
 
 qt6_add_resources(QT_RESOURCES resources.qrc)
@@ -19,4 +20,24 @@ if (WIN32)
 elseif(UNIX)
     add_executable(LetItOut main.cpp mainwindow.cpp customtitlebar.cpp ${MOC_SOURCES} ${QT_RESOURCES})
 endif()
-target_link_libraries(LetItOut PRIVATE Qt6::Widgets)
+target_link_libraries(LetItOut PRIVATE
+    Qt6::Widgets
+    FramelessHelper::Core
+    FramelessHelper::Widgets
+)
+
+# Set the installation path
+set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Installation Directory")
+
+# Install target
+install(TARGETS LetItOut
+    RUNTIME DESTINATION .
+)
+
+# Install the FramelessHelper DLL files
+if (WIN32)
+    install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/framelesshelper/bin64/"
+            DESTINATION .
+            FILES_MATCHING PATTERN "*.dll"
+    )
+endif()

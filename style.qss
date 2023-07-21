@@ -82,8 +82,7 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
 
 .title-button {
     background-color: #bac8ff;
-    border: none;
-    color: #FFF;
+    border-width: 0.1em 0.1em 0.2em 0.1em;    color: #FFF;
     border-radius: 4px;
 	margin-top: 0;
 	margin-bottom: 0;

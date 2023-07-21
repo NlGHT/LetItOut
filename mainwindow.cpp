@@ -11,17 +11,20 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
+#include <FramelessHelper/Widgets/framelesswidgetshelper.h>
+
 #include <QDebug>
 #include <iostream>
 
+FRAMELESSHELPER_USE_NAMESPACE
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    FramelessWidgetsHelper::get(this)->extendsContentIntoTitleBar(true);
     setupUi();
     setMouseTracking(true);
-//    setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
-    setWindowFlag(Qt::FramelessWindowHint);
+
 
     QResource::registerResource("://resources.qrc");
     QFile qssFile(":/qss/style.qss");
@@ -120,6 +123,7 @@ void MainWindow::setupUi()
 
     titleBar = new CustomTitleBar(this);
     layout->addWidget(titleBar);
+    FramelessWidgetsHelper::get(this)->setTitleBarWidget(titleBar);
 
 	scrollArea = new QScrollArea(this);
 	scrollArea->setWidgetResizable(true);
@@ -138,12 +142,14 @@ void MainWindow::setupUi()
 	connect(inputField, &QLineEdit::returnPressed, this, &MainWindow::onInputFieldSubmit);
 	layout->addWidget(inputField);
 
-    sizeGrip = new QSizeGrip(this);
-    layout->addWidget(sizeGrip, 0, Qt::AlignBottom | Qt::AlignRight);
-
     setCentralWidget(centralWidget);
 
-	inputField->setFocus();
+    inputField->setFocus();
+
+    FramelessWidgetsHelper::get(this)->setHitTestVisible(titleBar);
+    FramelessWidgetsHelper::get(this)->setHitTestVisible(inputField);
+    FramelessWidgetsHelper::get(this)->setHitTestVisible(listWidget);
+    FramelessWidgetsHelper::get(this)->setHitTestVisible(scrollArea);
 }
 
 void MainWindow::toggleFullscreen()
