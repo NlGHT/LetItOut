@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "customtitlebar.h"
 
 #include <QVBoxLayout>
 #include <QScrollArea>
@@ -10,15 +11,21 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
+#include <FramelessHelper/Widgets/framelesswidgetshelper.h>
+
 #include <QDebug>
 #include <iostream>
 
+FRAMELESSHELPER_USE_NAMESPACE
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    FramelessWidgetsHelper::get(this)->extendsContentIntoTitleBar(true);
     setupUi();
-	setMouseTracking(true);
+    setMouseTracking(true);
+
+
     QResource::registerResource("://resources.qrc");
     QFile qssFile(":/qss/style.qss");
     if (qssFile.open(QFile::ReadOnly)) {
@@ -35,6 +42,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     QShortcut *borderlessShortCut = new QShortcut(Qt::Key_F12, this);
     connect(borderlessShortCut , &QShortcut::activated, this, &MainWindow::toggleWindowDecorations);
+
+	titleBarVisible = true;
 }
 
 void MainWindow::onItemDoubleClicked(QListWidgetItem *item)
@@ -106,11 +115,15 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 void MainWindow::setupUi()
 {
 	qDebug() << "SETUP UI";
-	QWidget *centralWidget = new QWidget(this);
-	centralWidget->setProperty("class", "main-layout");
-	QVBoxLayout *layout = new QVBoxLayout(centralWidget);
+    QWidget *centralWidget = new QWidget(this);
+    centralWidget->setProperty("class", "main-layout");
+    layout = new QVBoxLayout(centralWidget);
 	layout->setSpacing(0);
 	layout->setContentsMargins(0, 0, 0, 0);
+
+    titleBar = new CustomTitleBar(this);
+    layout->addWidget(titleBar);
+    FramelessWidgetsHelper::get(this)->setTitleBarWidget(titleBar);
 
 	scrollArea = new QScrollArea(this);
 	scrollArea->setWidgetResizable(true);
@@ -129,9 +142,14 @@ void MainWindow::setupUi()
 	connect(inputField, &QLineEdit::returnPressed, this, &MainWindow::onInputFieldSubmit);
 	layout->addWidget(inputField);
 
-	setCentralWidget(centralWidget);
+    setCentralWidget(centralWidget);
 
-	inputField->setFocus();
+    inputField->setFocus();
+
+    FramelessWidgetsHelper::get(this)->setHitTestVisible(titleBar);
+    FramelessWidgetsHelper::get(this)->setHitTestVisible(inputField);
+    FramelessWidgetsHelper::get(this)->setHitTestVisible(listWidget);
+    FramelessWidgetsHelper::get(this)->setHitTestVisible(scrollArea);
 }
 
 void MainWindow::toggleFullscreen()
@@ -149,16 +167,17 @@ void MainWindow::resetFields()
 }
 
 void MainWindow::toggleWindowDecorations() {
-	Qt::WindowFlags flags = windowFlags();
-	if (flags & Qt::FramelessWindowHint) {
-		// Add window decorations
-		setWindowFlags(flags & ~Qt::FramelessWindowHint);
-	} else {
-		// Remove window decorations
-		setWindowFlags(flags | Qt::FramelessWindowHint);
-	}
-
-	show(); // Update the window to reflect the changes
+    if (titleBarVisible) {
+        // Hide the title bar
+        layout->removeWidget(titleBar);
+        titleBar->hide();
+        titleBarVisible = false;
+    } else {
+        // Show the title bar
+        layout->insertWidget(0, titleBar);
+        titleBar->show();
+        titleBarVisible = true;
+    }
 }
 
 void MainWindow::saveAsTextFile()

@@ -8,6 +8,8 @@
 #include <QLineEdit>
 #include <QListWidgetItem>
 #include <QMouseEvent>
+#include "customtitlebar.h"
+#include <QSizeGrip>
 
 class MainWindow : public QMainWindow
 {
@@ -16,9 +18,9 @@ class MainWindow : public QMainWindow
 	public:
 		MainWindow(QWidget *parent = nullptr);
 
-		private slots:
-			void onItemDoubleClicked(QListWidgetItem *item);
-			void keyPressEvent(QKeyEvent *event) override;
+	private slots:
+		void onItemDoubleClicked(QListWidgetItem *item);
+		void keyPressEvent(QKeyEvent *event) override;
 
 	private:
 		void setupUi();
@@ -30,11 +32,12 @@ class MainWindow : public QMainWindow
         void addToList(const QString &text);
 		void openFile();
 
-		QScrollArea *scrollArea;
-		QListWidget *listWidget;
-		QLineEdit *inputField;
-
-	protected:
+		QVBoxLayout* layout;
+		QScrollArea* scrollArea;
+		QListWidget* listWidget;
+		QLineEdit* inputField;
+		CustomTitleBar* titleBar;
+        bool titleBarVisible;
 };
 
 #endif // MAINWINDOW_H
