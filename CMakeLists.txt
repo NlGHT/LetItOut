@@ -3,6 +3,16 @@ project(LetItOut)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+# set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+# Set the relative RPATH for the binary
+# set(CMAKE_BUILD_RPATH "$ORIGIN/framelesshelper/src")
+
+# https://stackoverflow.com/a/71321163
+SET(CMAKE_BUILD_RPATH_USE_ORIGIN TRUE)
+
+# Skip RPATH for system libraries
+# set(CMAKE_SKIP_BUILD_RPATH TRUE)
 
 add_subdirectory(framelesshelper)
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
@@ -28,19 +38,3 @@ target_link_libraries(LetItOut PRIVATE
     FramelessHelper::Core
     FramelessHelper::Widgets
 )
-
-# Set the installation path
-set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Installation Directory")
-
-# Install target
-install(TARGETS LetItOut
-    RUNTIME DESTINATION .
-)
-
-# Install the FramelessHelper DLL files
-if (WIN32)
-    install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/framelesshelper/bin64/"
-            DESTINATION .
-            FILES_MATCHING PATTERN "*.dll"
-    )
-endif()
