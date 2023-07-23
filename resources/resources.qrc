@@ -3,7 +3,7 @@
         <file>style.qss</file>
     </qresource>
     <qresource prefix="/resources">
-        <file>resources/icon.ico</file>
-        <file>resources/letitout.rc</file>
+        <file>icon.ico</file>
+        <file>letitout.rc</file>
     </qresource>
 </RCC>

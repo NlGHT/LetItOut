@@ -13,9 +13,6 @@
 
 #include <FramelessHelper/Widgets/framelesswidgetshelper.h>
 
-#include <QDebug>
-#include <iostream>
-
 FRAMELESSHELPER_USE_NAMESPACE
 
 MainWindow::MainWindow(QWidget *parent)
@@ -26,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     setMouseTracking(true);
 
 
-    QResource::registerResource("://resources.qrc");
+    QResource::registerResource(":/src/resources.qrc");
     QFile qssFile(":/qss/style.qss");
     if (qssFile.open(QFile::ReadOnly)) {
         QString qss = qssFile.readAll();
@@ -114,7 +111,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 void MainWindow::setupUi()
 {
-	qDebug() << "SETUP UI";
     QWidget *centralWidget = new QWidget(this);
     centralWidget->setProperty("class", "main-layout");
     layout = new QVBoxLayout(centralWidget);
