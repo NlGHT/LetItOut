@@ -26,10 +26,11 @@ MainWindow::MainWindow(QWidget *parent)
     setMouseTracking(true);
 
 
-    QResource::registerResource("://resources.qrc");
+    QResource::registerResource(":/src/resources.qrc");
     QFile qssFile(":/qss/style.qss");
     if (qssFile.open(QFile::ReadOnly)) {
         QString qss = qssFile.readAll();
+        std::cout << qss.toStdString() << std::endl;
         setStyleSheet(qss);
     }
 
