@@ -13,9 +13,6 @@
 
 #include <FramelessHelper/Widgets/framelesswidgetshelper.h>
 
-#include <QDebug>
-#include <iostream>
-
 FRAMELESSHELPER_USE_NAMESPACE
 
 MainWindow::MainWindow(QWidget *parent)
@@ -30,7 +27,6 @@ MainWindow::MainWindow(QWidget *parent)
     QFile qssFile(":/qss/style.qss");
     if (qssFile.open(QFile::ReadOnly)) {
         QString qss = qssFile.readAll();
-        std::cout << qss.toStdString() << std::endl;
         setStyleSheet(qss);
     }
 
@@ -115,7 +111,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 void MainWindow::setupUi()
 {
-	qDebug() << "SETUP UI";
     QWidget *centralWidget = new QWidget(this);
     centralWidget->setProperty("class", "main-layout");
     layout = new QVBoxLayout(centralWidget);
