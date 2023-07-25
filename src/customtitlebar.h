@@ -24,11 +24,11 @@ class CustomTitleBar : public QWidget
 
 	private:
 		QPoint startPos;
-		QLabel* titleLabel;
-		QPushButton* minimizeButton;
-		QPushButton* maximizeButton;
-		QPushButton* closeButton;
-		QHBoxLayout* layout;
+		QLabel titleLabel;
+		QPushButton minimizeButton;
+		QPushButton maximizeButton;
+		QPushButton closeButton;
+		QHBoxLayout layout;
 };
 
 #endif // CUSTOMTITLEBAR_H

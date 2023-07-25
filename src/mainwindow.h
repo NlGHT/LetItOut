@@ -10,6 +10,7 @@
 #include <QMouseEvent>
 #include "customtitlebar.h"
 #include <QSizeGrip>
+#include <QShortcut>
 
 class MainWindow : public QMainWindow
 {
@@ -32,12 +33,16 @@ class MainWindow : public QMainWindow
         void addToList(const QString &text);
 		void openFile();
 
-		QVBoxLayout* layout;
-		QScrollArea* scrollArea;
-		QListWidget* listWidget;
-		QLineEdit* inputField;
-		CustomTitleBar* titleBar;
+		QWidget centralWidget;
+		QVBoxLayout layout;
+		QScrollArea scrollArea;
+		QListWidget listWidgetSafe;
+		QLineEdit inputField;
+		CustomTitleBar titleBar;
         bool titleBarVisible;
+
+		QShortcut fullscreenShortcut;
+		QShortcut borderlessShortcut;
 };
 
 #endif // MAINWINDOW_H
