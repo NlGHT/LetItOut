@@ -11,6 +11,7 @@
 #include "customtitlebar.h"
 #include <QSizeGrip>
 #include <QShortcut>
+#include <QSettings>
 
 class MainWindow : public QMainWindow
 {
@@ -40,6 +41,9 @@ class MainWindow : public QMainWindow
 		QLineEdit inputField;
 		CustomTitleBar titleBar;
         bool titleBarVisible;
+        QString defaultSaveDir;
+        QSettings settings;
+
 
 		QShortcut fullscreenShortcut;
 		QShortcut borderlessShortcut;

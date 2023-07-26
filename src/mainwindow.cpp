@@ -10,6 +10,7 @@
 #include <QShortcut>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QStandardPaths>
 
 #include <FramelessHelper/Widgets/framelesswidgetshelper.h>
 
@@ -23,12 +24,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 	  inputField(this),
 	  titleBar(this),
 	  fullscreenShortcut(Qt::Key_F11, this),
-	  borderlessShortcut(Qt::Key_F12, this)
+      borderlessShortcut(Qt::Key_F12, this),
+      settings("LetItOut", "LetItOutSettings")
 {
     FramelessWidgetsHelper::get(this)->extendsContentIntoTitleBar(true);
     setupUi();
     setMouseTracking(true);
-
 
     QResource::registerResource(":/src/resources.qrc");
     QFile qssFile(":/qss/style.qss");
@@ -45,6 +46,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(&borderlessShortcut , &QShortcut::activated, this, &MainWindow::toggleWindowDecorations);
 
 	titleBarVisible = true;
+    if (settings.contains("defaultSaveDir")) {
+        defaultSaveDir = settings.value("defaultSaveDir").toString();
+    } else {
+        defaultSaveDir = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    }
 }
 
 void MainWindow::onItemDoubleClicked(QListWidgetItem *item)
@@ -181,6 +187,7 @@ void MainWindow::saveAsTextFile()
 		// Prompt for "Save As" window
 		QFileDialog dialog(nullptr, "Save As");
 		dialog.setDefaultSuffix("txt");
+        dialog.setDirectory(defaultSaveDir);
 		dialog.setAcceptMode(QFileDialog::AcceptSave);
 		dialog.setNameFilter("Text Files (*.txt);;All Files (*)");
 
@@ -206,6 +213,12 @@ void MainWindow::saveAsTextFile()
 		}
 
 		file.close();
+
+        // Get the path without the filename
+        QFileInfo fileInfo(filePath);
+        QString directoryPath = fileInfo.path();
+        settings.setValue("defaultSaveDir", directoryPath);
+        defaultSaveDir = directoryPath;
 	}
 }
 
@@ -230,7 +243,7 @@ void MainWindow::addToList(const QString &text)
 
 void MainWindow::openFile()
 {
-    QString filePath = QFileDialog::getOpenFileName(this, tr("Open Text File"), QString(), tr("Text Files (*.txt)"));
+    QString filePath = QFileDialog::getOpenFileName(this, tr("Open Text File"), defaultSaveDir, tr("Text Files (*.txt)"));
     if (!filePath.isEmpty())
     {
         QFile file(filePath);

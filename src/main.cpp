@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     QRect screenGeometry = screen->geometry();
 
     // Load the previous window size from settings or use a default size
-    QSettings settings("MyApp", "MyAppSettings");
+    QSettings settings("LetItOut", "LetItOutSettings");
 
     // Reset the window size settings for testing the default value
     // settings.remove("windowWidth");
