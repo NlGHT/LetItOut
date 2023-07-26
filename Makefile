@@ -1,6 +1,6 @@
 build_dir := build
 
-all: build
+all: clean build run
 
 build:
 	mkdir -p $(build_dir)
