@@ -77,7 +77,7 @@ jobs:
         uses: joncloud/makensis-action@v4
         with:
           arguments: "/V3"
-          script-file: "installer\installer.nsi"
+          script-file: "installer/installer.nsi"
       - name: Archive Windows binaries
         uses: actions/upload-artifact@v3
         with:
