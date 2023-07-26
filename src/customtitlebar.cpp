@@ -7,7 +7,13 @@
 
 #include <iostream>
 
-CustomTitleBar::CustomTitleBar(QWidget* parent) : QWidget(parent) {
+CustomTitleBar::CustomTitleBar(QWidget* parent) : QWidget(parent),
+	titleLabel(" ", this),
+	minimizeButton("-", this),
+	maximizeButton("+", this),
+	closeButton("x", this),
+	layout(this)
+{
     QFile qssFile(":/qss/style.qss");
 	QString qss;
     if (qssFile.open(QFile::ReadOnly)) {
@@ -15,38 +21,33 @@ CustomTitleBar::CustomTitleBar(QWidget* parent) : QWidget(parent) {
 		setStyleSheet(qss);
     }
 
-	titleLabel = new QLabel(" ", this); // Idk about title anymore honestly, maybe add later
-	titleLabel->setObjectName("titleLabel");
-	titleLabel->setProperty("class", "title-label");
+	titleLabel.setObjectName("titleLabel");
+	titleLabel.setProperty("class", "title-label");
 
-    minimizeButton = new QPushButton("-", this);
-	minimizeButton->setProperty("class", "title-button");
-    connect(minimizeButton, &QPushButton::clicked, this, &CustomTitleBar::minimizeWindow);
+	minimizeButton.setProperty("class", "title-button");
+    connect(&minimizeButton, &QPushButton::clicked, this, &CustomTitleBar::minimizeWindow);
 
-    maximizeButton = new QPushButton("+", this);
-	maximizeButton->setProperty("class", "title-button");
-    connect(maximizeButton, &QPushButton::clicked, this, &CustomTitleBar::maximizeWindow);
+	maximizeButton.setProperty("class", "title-button");
+    connect(&maximizeButton, &QPushButton::clicked, this, &CustomTitleBar::maximizeWindow);
 
-    closeButton = new QPushButton("x", this);
-	closeButton->setProperty("class", "title-button");
-    connect(closeButton, &QPushButton::clicked, this, &CustomTitleBar::closeWindow);
+	closeButton.setProperty("class", "title-button");
+    connect(&closeButton, &QPushButton::clicked, this, &CustomTitleBar::closeWindow);
 
-    layout = new QHBoxLayout(this);
-	layout->setProperty("class", "title-layout");
-	layout->addWidget(titleLabel);
-	layout->addStretch(1); // Add the gap so that buttons appear on the right
-    layout->addWidget(minimizeButton);
-    layout->addWidget(maximizeButton);
-    layout->addWidget(closeButton);
+	layout.setProperty("class", "title-layout");
+	layout.addWidget(&titleLabel);
+	layout.addStretch(1); // Add the gap so that buttons appear on the right
+    layout.addWidget(&minimizeButton);
+    layout.addWidget(&maximizeButton);
+    layout.addWidget(&closeButton);
 
-    setLayout(layout);
+    setLayout(&layout);
 }
 
 void CustomTitleBar::minimizeWindow() {
     nativeParentWidget()->showMinimized();
 }
 
-void CustomTitleBar::maximizeWindow() {        
+void CustomTitleBar::maximizeWindow() {
     if (nativeParentWidget()->isMaximized()) {
         nativeParentWidget()->showNormal();
     } else {
