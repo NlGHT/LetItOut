@@ -9,7 +9,7 @@ Name "Let It Out"
 !include "MUI2.nsh"
 
 ; Set the application name and installer
-Outfile "${AppName}Installer.exe"
+Outfile "${AppName}-Installer.exe"
 
 ; Set the default installation directory
 InstallDir $PROGRAMFILES64\${AppName}

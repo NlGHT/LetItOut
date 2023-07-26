@@ -69,21 +69,15 @@ jobs:
         shell: cmd
         run: |
           "C:\Windows\System32\tar.exe" -acf ${{ env.PROJECT }}-Windows.zip -C build *
-      - name: Fix package release date
-        shell: powershell
-        run: |
-          $packageXmlPath = "installer\packages\com.night.letitout\meta\package.xml"
-          $newReleaseDate = (Get-Date).ToString("yyyy-MM-dd")
-          (Get-Content -Path $packageXmlPath) -replace '<ReleaseDate>.*</ReleaseDate>', "<ReleaseDate>$newReleaseDate</ReleaseDate>" | Set-Content -Path $packageXmlPath
-      - name: Make installer
-        shell: cmd
-        run: |
-          ls build
-          mkdir .\installer\packages\com.night.letitout\data
-          xcopy /s /i /y build\* .\installer\packages\com.night.letitout\data\
-          ls .\installer\packages\com.night.letitout\data
-          ls "${{ env.IQTA_TOOLS }}\QtInstallerFramework"
-          "${{ env.IQTA_TOOLS }}\QtInstallerFramework\4.6\bin\binarycreator.exe" --offline-only -c installer/config/config.xml -p installer/packages ${{ env.PROJECT }}-setup.exe
+      - name: Install NSIS
+        uses: repolevedavaj/install-nsis@v1
+        with:
+          nsis-version: 3.08
+      - name: Create installer
+        uses: joncloud/makensis-action@v4
+        with:
+          arguments: "/V3"
+          script-file: "installer\installer.nsi"
       - name: Archive Windows binaries
         uses: actions/upload-artifact@v3
         with:
@@ -93,7 +87,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: windows-installer
-          path: "${{ env.PROJECT }}-Setup.exe"
+          path: "${{ env.PROJECT }}-Installer.exe"
 
   build-linux:
     runs-on: ubuntu-latest
