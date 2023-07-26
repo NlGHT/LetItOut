@@ -87,7 +87,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: windows-installer
-          path: "${{ env.PROJECT }}-Installer.exe"
+          path: "installer/${{ env.PROJECT }}-Installer.exe"
 
   build-linux:
     runs-on: ubuntu-latest
