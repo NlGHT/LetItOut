@@ -36,7 +36,7 @@ class MainWindow : public QMainWindow
 		QWidget centralWidget;
 		QVBoxLayout layout;
 		QScrollArea scrollArea;
-		QListWidget listWidgetSafe;
+        QListWidget listWidget;
 		QLineEdit inputField;
 		CustomTitleBar titleBar;
         bool titleBarVisible;

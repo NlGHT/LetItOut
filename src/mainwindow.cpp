@@ -18,8 +18,8 @@ FRAMELESSHELPER_USE_NAMESPACE
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 	  centralWidget(this),
 	  layout(&centralWidget),
-	  scrollArea(this),
-	  listWidgetSafe(this),
+      scrollArea(this),
+    listWidget(this),
 	  inputField(this),
 	  titleBar(this),
 	  fullscreenShortcut(Qt::Key_F11, this),
@@ -49,63 +49,63 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
 void MainWindow::onItemDoubleClicked(QListWidgetItem *item)
 {
-	if (item) {
-		listWidgetSafe.editItem(item);
+    if (item) {
+        listWidget.editItem(item);
 	}
 }
 //
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
 	if (event->key() == Qt::Key_Escape)
-	{
-		if (listWidgetSafe.hasFocus()) {
-			// Handle the escape key press event here
-			listWidgetSafe.clearSelection();
-			listWidgetSafe.clearFocus();
+    {
+        if (listWidget.hasFocus()) {
+            // Handle the escape key press event here
+            listWidget.clearSelection();
+            listWidget.clearFocus();
 			inputField.setFocus();
 		} else if (inputField.hasFocus()) {
-			inputField.clearFocus();
-			listWidgetSafe.focusWidget();
+            inputField.clearFocus();
+            listWidget.focusWidget();
 		}
     } else  if (event->key() == Qt::Key_R || event->key() == Qt::Key_F5) {
 		resetFields();
 	} else if (event->modifiers() == Qt::ControlModifier && event->key() == Qt::Key_S) {
 		saveAsTextFile();
 	} else if (event->modifiers() == Qt::ControlModifier && event->key() == Qt::Key_O) {
-		openFile();
-	} else if (listWidgetSafe.hasFocus()) {
-		auto currentItem = listWidgetSafe.currentItem();
-		int currentItemIndex = listWidgetSafe.row(currentItem);
+        openFile();
+    } else if (listWidget.hasFocus()) {
+        auto currentItem = listWidget.currentItem();
+        int currentItemIndex = listWidget.row(currentItem);
 		if (event->key() == Qt::Key_K) {
 			if (currentItemIndex > 0) {
 				if (event->modifiers() == (Qt::ControlModifier | Qt::ShiftModifier)) {
-					// Shift up pressed
-					listWidgetSafe.takeItem(currentItemIndex);
-					listWidgetSafe.insertItem(currentItemIndex - 1, currentItem);
-					listWidgetSafe.setCurrentItem(currentItem);
-				} else if (event->modifiers() == Qt::ControlModifier) {
-					listWidgetSafe.setCurrentRow(currentItemIndex - 1);
+                    // Shift up pressed
+                    listWidget.takeItem(currentItemIndex);
+                    listWidget.insertItem(currentItemIndex - 1, currentItem);
+                    listWidget.setCurrentItem(currentItem);
+                } else if (event->modifiers() == Qt::ControlModifier) {
+                    listWidget.setCurrentRow(currentItemIndex - 1);
 				}
 			}
-		} else if (event->key() == Qt::Key_J) {
-			if (currentItemIndex < listWidgetSafe.count() - 1) {
+        } else if (event->key() == Qt::Key_J) {
+            if (currentItemIndex < listWidget.count() - 1) {
 				// Shift down pressed
-				if (event->modifiers() == (Qt::ControlModifier | Qt::ShiftModifier)) {
-					listWidgetSafe.takeItem(currentItemIndex);
-					listWidgetSafe.insertItem(currentItemIndex + 1, currentItem);
-					listWidgetSafe.setCurrentItem(currentItem);
-				} else if (event->modifiers() == Qt::ControlModifier) {
-					listWidgetSafe.setCurrentRow(currentItemIndex + 1);
+                if (event->modifiers() == (Qt::ControlModifier | Qt::ShiftModifier)) {
+                    listWidget.takeItem(currentItemIndex);
+                    listWidget.insertItem(currentItemIndex + 1, currentItem);
+                    listWidget.setCurrentItem(currentItem);
+                } else if (event->modifiers() == Qt::ControlModifier) {
+                    listWidget.setCurrentRow(currentItemIndex + 1);
 				}
 			}
-		} else if (event->key() == Qt::Key_Return) {
-			listWidgetSafe.editItem(currentItem);
-		} else if (event->key() == Qt::Key_Delete) {
-			delete listWidgetSafe.currentItem();
+        } else if (event->key() == Qt::Key_Return) {
+            listWidget.editItem(currentItem);
+        } else if (event->key() == Qt::Key_Delete) {
+            delete listWidget.currentItem();
 		}
-	}  else if (event->key() == Qt::Key_Tab) {
-		if (!listWidgetSafe.hasFocus()) {
-			listWidgetSafe.focusWidget();
+    }  else if (event->key() == Qt::Key_Tab) {
+        if (!listWidget.hasFocus()) {
+            listWidget.focusWidget();
 		} else {
 			inputField.focusWidget();
 		}
@@ -124,11 +124,11 @@ void MainWindow::setupUi()
 
 	scrollArea.setWidgetResizable(true);
 
-	listWidgetSafe.setDragEnabled(true);
-	listWidgetSafe.setDragDropMode(QAbstractItemView::InternalMove);
-	listWidgetSafe.setProperty("class", "list-widget");
-	listWidgetSafe.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	scrollArea.setWidget(&listWidgetSafe);
+    listWidget.setDragEnabled(true);
+    listWidget.setDragDropMode(QAbstractItemView::InternalMove);
+    listWidget.setProperty("class", "list-widget");
+    listWidget.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scrollArea.setWidget(&listWidget);
 	layout.addWidget(&scrollArea);
 
 	inputField.setMaxLength(100);
@@ -142,7 +142,7 @@ void MainWindow::setupUi()
 
     FramelessWidgetsHelper::get(this)->setHitTestVisible(&titleBar);
     FramelessWidgetsHelper::get(this)->setHitTestVisible(&inputField);
-    FramelessWidgetsHelper::get(this)->setHitTestVisible(&listWidgetSafe);
+    FramelessWidgetsHelper::get(this)->setHitTestVisible(&listWidget);
     FramelessWidgetsHelper::get(this)->setHitTestVisible(&scrollArea);
 }
 
@@ -156,7 +156,7 @@ void MainWindow::toggleFullscreen()
 
 void MainWindow::resetFields()
 {
-	listWidgetSafe.clear();
+    listWidget.clear();
 	inputField.clear();
 }
 
@@ -176,7 +176,7 @@ void MainWindow::toggleWindowDecorations() {
 
 void MainWindow::saveAsTextFile()
 {
-	if (listWidgetSafe.count() > 0) {
+    if (listWidget.count() > 0) {
 		// Prompt for the "Save As" window
 		// Prompt for "Save As" window
 		QFileDialog dialog(nullptr, "Save As");
@@ -199,9 +199,9 @@ void MainWindow::saveAsTextFile()
 			return;
 		}
 
-		QTextStream out(&file);
-		for (int i = 0; i < listWidgetSafe.count(); ++i) {
-			QListWidgetItem* item = listWidgetSafe.item(i);
+        QTextStream out(&file);
+        for (int i = 0; i < listWidget.count(); ++i) {
+            QListWidgetItem* item = listWidget.item(i);
 			out << item->text() << "\n";
 		}
 
@@ -222,10 +222,10 @@ void MainWindow::onInputFieldSubmit()
 void MainWindow::addToList(const QString &text)
 {
 	QListWidgetItem *item = new QListWidgetItem(text);
-	item->setFlags(item->flags() | Qt::ItemIsEditable);
-	connect(&listWidgetSafe, &QListWidget::itemDoubleClicked, this, &MainWindow::onItemDoubleClicked);
-	listWidgetSafe.addItem(item);
-	listWidgetSafe.scrollToBottom();
+    item->setFlags(item->flags() | Qt::ItemIsEditable);
+    connect(&listWidget, &QListWidget::itemDoubleClicked, this, &MainWindow::onItemDoubleClicked);
+    listWidget.addItem(item);
+    listWidget.scrollToBottom();
 }
 
 void MainWindow::openFile()
@@ -248,8 +248,8 @@ void MainWindow::openFile()
 			if (fileLines.size() > 0)
 			{
 				// Initialise to yes because if the listWidget size is 0 then no confirmation needed
-				QMessageBox::StandardButton reply = QMessageBox::Yes;
-				if (listWidgetSafe.count() > 0)
+                QMessageBox::StandardButton reply = QMessageBox::Yes;
+                if (listWidget.count() > 0)
 				{
 					// Ask for confirmation
 					reply = QMessageBox::question(this, tr("Confirmation"), tr("Are you sure you want to replace everything?"), QMessageBox::Yes | QMessageBox::No);
