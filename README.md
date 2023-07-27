@@ -1,7 +1,7 @@
 # Let It Out
 ![build status](https://github.com/NlGHT/LetItOut/actions/workflows/cmake.yml/badge.svg)
 
-Very simple text input to collect your thoughts by just writing everything that comes to mind line for line, thought by thought.
+Very simple text input app to collect your thoughts by just writing everything that comes to mind line for line, thought by thought.
 ### Focus on what matters.
 
 Qt6 application with KISS (Keep It Simple Stupid) in mind and focus on minimalism.
@@ -29,7 +29,7 @@ Vim users will feel right at home.  Full list of keybinds can be found below:
 | Delete                        | Delete selected item                                |
 | Enter                         | Submit input field / Edit selected item             |
 | Tab                           | Cycle focus                                         |
-| Control + R                   | Reload, removing all items and clearing input field |
+| Control + R \| \| F5          | Reload, removing all items and clearing input field |
 | Control + S                   | Save as text file                                   |
 | Control + O                   | Open text file                                      |
 
