@@ -11,8 +11,8 @@ Do you know **where you're going**?  What it is **you're doing right now**?  Hav
 ![Demo GIF 1](https://github.com/NlGHT/LetItOut/blob/assets/LIODemo.gif)
 Slow down your thought process and focus on the things that matter.  If your mind is racing or you space out, it may be difficult to regain your balance or figure out what's next or going on.
 
-## Platforms
-Currently **Windows** and **Linux x86_64** (glibc or musl based) are all officially supported.  Theoretically though, it has cross-platform native support with minimal dependencies in typical KISS fashion.  Possible to build for anything.
+## Installation
+Currently **Windows** and **GNU/Linux x86_64** are officially released.  You can download the [latest development release](https://github.com/NlGHT/LetItOut/releases/tag/latest) generated on GitHub.  Theoretically though, it has cross-platform native support with minimal dependencies.  I personally use it on Alpine Linux (musl based, not glibc).  It's possible to build for anything with instructions below.
 
 ## Keyboard centric or mouse workflow
 ![Demo GIF 2](https://github.com/NlGHT/LetItOut/blob/assets/LIOActionsDemo.gif)
