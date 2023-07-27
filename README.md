@@ -1,5 +1,5 @@
 # Let It Out
-![build status](https://github.com/NlGHT/LetItOut/actions/workflows/cmake.yml/badge.svg)
+[![build status](https://github.com/NlGHT/LetItOut/actions/workflows/cmake.yml/badge.svg)](https://github.com/NlGHT/LetItOut/actions/workflows/cmake.yml)
 
 Very simple text input app to collect your thoughts by just writing everything that comes to mind line for line, thought by thought.
 ### Focus on what matters.
