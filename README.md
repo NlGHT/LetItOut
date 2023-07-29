@@ -11,6 +11,15 @@ Do you know **where you're going**?  What it is **you're doing right now**?  Is 
 ![Demo GIF 1](https://github.com/NlGHT/LetItOut/blob/assets/LIODemo.gif)
 Slow down your thought process and focus on the things that matter.  If your mind is racing or you space out sometimes, it may be difficult to regain your balance or figure out what's next or going on.
 
+## Features
+- ⚡ Drop in-and-out quickly with fast startup times when you need your own loading time.
+- ⌨️ Keyboard centric workflow to stay at the keyboard home row.
+- 🖱️ Mouse workflow as well for those who take a more visual approach.
+- 🧠 Simplify your situation and your thoughts.
+- 📉 Break problems down into handling them one step at a time.
+- 🐧 Cross-platform support.
+- 😌 Relaxed pastel colour scheme to help relieve stress.
+
 ## Install
 Currently **Windows** and **GNU/Linux x86_64** are officially released.  Go to [stable releases](https://github.com/NlGHT/LetItOut/releases/tag/stable) to download the latest stable version.  You can alternatively download the [latest development release](https://github.com/NlGHT/LetItOut/releases/tag/latest) generated on GitHub.
 
