@@ -5,14 +5,16 @@ Very simple text input app to collect your thoughts by just writing everything t
 ### Focus on what matters.
 
 Qt6 application with KISS (Keep It Simple Stupid) in mind and focus on minimalism.
-## Perhaps you're lost?
-Do you know **where you're going**?  What it is **you're doing right now**?  Have you **lost sight** and are **wasting time** thinking or **doing something irrelevant**? 
+## Perhaps you've lost focus?
+Do you know **where you're going**?  What it is **you're doing right now**?  Is there **a lot going on in your life**?  Have you **lost sight** and are **wasting time** thinking or **doing something irrelevant**?
 
 ![Demo GIF 1](https://github.com/NlGHT/LetItOut/blob/assets/LIODemo.gif)
-Slow down your thought process and focus on the things that matter.  If your mind is racing or you space out, it may be difficult to regain your balance or figure out what's next or going on.
+Slow down your thought process and focus on the things that matter.  If your mind is racing or you space out sometimes, it may be difficult to regain your balance or figure out what's next or going on.
 
-## Installation
-Currently **Windows** and **GNU/Linux x86_64** are officially released.  You can download the [latest development release](https://github.com/NlGHT/LetItOut/releases/tag/latest) generated on GitHub.  Theoretically though, it has cross-platform native support with minimal dependencies.  I personally use it on Alpine Linux (musl based, not glibc).  It's possible to build for anything with instructions below.
+## Install
+Currently **Windows** and **GNU/Linux x86_64** are officially released.  Go to [stable releases](https://github.com/NlGHT/LetItOut/releases/tag/stable) to download the latest stable version.  You can alternatively download the [latest development release](https://github.com/NlGHT/LetItOut/releases/tag/latest) generated on GitHub.
+
+Theoretically though, it has cross-platform support with minimal dependencies.  I personally use it on Alpine Linux (musl based, not glibc).  It's possible to build for anything with the [instructions below](#building).  APKBUILD and PKGBUILD might come later.
 
 ## Keyboard centric or mouse workflow
 ![Demo GIF 2](https://github.com/NlGHT/LetItOut/blob/assets/LIOActionsDemo.gif)
@@ -35,7 +37,7 @@ Vim users will feel right at home.  Full list of keybinds can be found below:
 
 ## Building
 Releases are automated with every push to main, you can always find the latest development builds in the [latest releases](https://github.com/NlGHT/LetItOut/releases/tag/latest).
-These may be unstable, but most likely they won't be.  In addition, compiles that fail at any point won't be published to the releases.
+These may be unstable, but most likely they won't be as in order to be posted there they have to compile without errors.
 ### Windows
 Best way to do this is to install Qt through the [site](https://qt.io/download) after creating an account and downloading the maintenance tool.  Open the project CMakeLists.txt with Qt Creator.
 Alternatively you can have a look at what is being done with the [github actions workflow](https://github.com/NlGHT/LetItOut/blob/main/.github/workflows/cmake.yml).
