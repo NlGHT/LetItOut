@@ -143,17 +143,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download Windows binaries
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.1.7
         with:
           name: windows-binaries
           path: release
       - name: Download Windows installer
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.1.7
         with:
           name: windows-installer
           path: release
       - name: Download Linux binaries
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.1.7
         with:
           name: linux-binaries
           path: release
