@@ -64,8 +64,6 @@ jobs:
           copy "${{ env.Qt6_DIR }}\bin\libstdc++-6.dll" build
           copy "${{ env.Qt6_DIR }}\bin\libwinpthread-1.dll" build
           cd build
-          del /f /s /q .qt CMakeCache.txt cmake_install.cmake compile_commands.json D3Dcompiler_47.dll CMakeFiles translations qwindowkit
-          rmdir /s /q CMakeFiles imageformats translations .qt qwindowkit
       - name: Tar build
         shell: cmd
         run: |
