@@ -7,7 +7,7 @@ on:
 
 env:
   VERSION_NUMBER: 1.1
-  QT_VERSION: 6.7.2
+  QT_VERSION: 6.7
   PROJECT: "LetItOut"
   QT_PATH: D:\a\LetItOut\LetItOut\Qt
   MINGW_VERSION: mingw1120_64
@@ -63,8 +63,8 @@ jobs:
           copy "${{ env.Qt6_DIR }}\bin\libstdc++-6.dll" build
           copy "${{ env.Qt6_DIR }}\bin\libwinpthread-1.dll" build
           cd build
-          del /f /s /q .ninja_deps .ninja_log .qt build.ninja CMakeCache.txt cmake_install.cmake compile_commands.json D3Dcompiler_47.dll CMakeFiles imageformats translations framelesshelper qwindowkit
-          rmdir /s /q CMakeFiles imageformats translations .qt framelesshelper qwindowkit
+          # del /f /s /q .qt CMakeCache.txt cmake_install.cmake compile_commands.json D3Dcompiler_47.dll CMakeFiles translations framelesshelper qwindowkit
+          # rmdir /s /q CMakeFiles imageformats translations .qt framelesshelper qwindowkit
       - name: Tar build
         shell: cmd
         run: |
