@@ -58,13 +58,14 @@ jobs:
       - name: Deploy
         shell: cmd
         run: |
+          dir
           "${{ env.Qt6_DIR }}\bin\windeployqt.exe" build/${{ env.PROJECT }}.exe
           copy "${{ env.Qt6_DIR }}\bin\libgcc_s_seh-1.dll" build
           copy "${{ env.Qt6_DIR }}\bin\libstdc++-6.dll" build
           copy "${{ env.Qt6_DIR }}\bin\libwinpthread-1.dll" build
           cd build
-          # del /f /s /q .qt CMakeCache.txt cmake_install.cmake compile_commands.json D3Dcompiler_47.dll CMakeFiles translations framelesshelper qwindowkit
-          # rmdir /s /q CMakeFiles imageformats translations .qt framelesshelper qwindowkit
+          del /f /s /q .qt CMakeCache.txt cmake_install.cmake compile_commands.json D3Dcompiler_47.dll CMakeFiles translations qwindowkit
+          rmdir /s /q CMakeFiles imageformats translations .qt qwindowkit
       - name: Tar build
         shell: cmd
         run: |
