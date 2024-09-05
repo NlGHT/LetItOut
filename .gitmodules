@@ -1,3 +1,9 @@
 [submodule "framelesshelper"]
 	path = framelesshelper
 	url = https://github.com/wangwenx190/framelesshelper.git
+[submodule "qwindowkit"]
+	path = qwindowkit
+	url = https://github.com/stdware/qwindowkit.git
+[submodule "qmsetup"]
+	path = qmsetup
+	url = https://github.com/stdware/qmsetup.git

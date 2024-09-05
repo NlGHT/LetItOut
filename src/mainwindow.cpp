@@ -12,9 +12,9 @@
 #include <QMessageBox>
 #include <QStandardPaths>
 
-#include <FramelessHelper/Widgets/framelesswidgetshelper.h>
+#include <QWKWidgets/widgetwindowagent.h>
 
-FRAMELESSHELPER_USE_NAMESPACE
+
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 	  centralWidget(this),
@@ -22,13 +22,24 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
       scrollArea(this),
     listWidget(this),
 	  inputField(this),
-	  titleBar(this),
 	  fullscreenShortcut(Qt::Key_F11, this),
       borderlessShortcut(Qt::Key_F12, this),
       settings("LetItOut", "LetItOutSettings")
 {
-    FramelessWidgetsHelper::get(this)->extendsContentIntoTitleBar(true);
+    auto agent = new QWK::WidgetWindowAgent(this);
+    agent->setup(this);
+    titleBar = new CustomTitleBar(this);
     setupUi();
+    agent->setTitleBar(titleBar);
+    agent->setHitTestVisible(titleBar);
+    agent->setSystemButton(QWK::WindowAgentBase::Minimize, titleBar->minimizeButton);
+    agent->setSystemButton(QWK::WindowAgentBase::Maximize, titleBar->maximizeButton);
+    agent->setSystemButton(QWK::WindowAgentBase::Close, titleBar->closeButton);
+
+//    FramelessWidgetsHelper::get(this)->setHitTestVisible(&titleBar);
+//    FramelessWidgetsHelper::get(this)->setHitTestVisible(&inputField);
+//    FramelessWidgetsHelper::get(this)->setHitTestVisible(&listWidget);
+//    FramelessWidgetsHelper::get(this)->setHitTestVisible(&scrollArea);
     setMouseTracking(true);
 
     QResource::registerResource(":/src/resources.qrc");
@@ -125,8 +136,7 @@ void MainWindow::setupUi()
 	layout.setSpacing(0);
 	layout.setContentsMargins(0, 0, 0, 0);
 
-    layout.addWidget(&titleBar);
-    FramelessWidgetsHelper::get(this)->setTitleBarWidget(&titleBar);
+    layout.addWidget(titleBar);
 
 	scrollArea.setWidgetResizable(true);
 
@@ -145,11 +155,6 @@ void MainWindow::setupUi()
     setCentralWidget(&centralWidget);
 
     inputField.setFocus();
-
-    FramelessWidgetsHelper::get(this)->setHitTestVisible(&titleBar);
-    FramelessWidgetsHelper::get(this)->setHitTestVisible(&inputField);
-    FramelessWidgetsHelper::get(this)->setHitTestVisible(&listWidget);
-    FramelessWidgetsHelper::get(this)->setHitTestVisible(&scrollArea);
 }
 
 void MainWindow::toggleFullscreen()
@@ -169,13 +174,13 @@ void MainWindow::resetFields()
 void MainWindow::toggleWindowDecorations() {
     if (titleBarVisible) {
         // Hide the title bar
-        layout.removeWidget(&titleBar);
-        titleBar.hide();
+        layout.removeWidget(titleBar);
+        titleBar->hide();
         titleBarVisible = false;
     } else {
         // Show the title bar
-        layout.insertWidget(0, &titleBar);
-        titleBar.show();
+        layout.insertWidget(0, titleBar);
+        titleBar->show();
         titleBarVisible = true;
     }
 }

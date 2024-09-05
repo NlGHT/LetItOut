@@ -7,7 +7,31 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # https://stackoverflow.com/a/71321163
 SET(CMAKE_BUILD_RPATH_USE_ORIGIN TRUE)
 
-add_subdirectory(framelesshelper)
+find_package(qmsetup QUIET)
+
+if (NOT TARGET qmsetup::library)
+    # Modify this variable according to your project structure
+    set(_source_dir ${CMAKE_CURRENT_SOURCE_DIR}/qmsetup)
+
+    # Import install function
+    include("${_source_dir}/cmake/modules/private/InstallPackage.cmake")
+
+    # Install package in place
+    set(_package_path)
+    qm_install_package(qmsetup
+        SOURCE_DIR ${_source_dir}
+        BUILD_TYPE Release
+        RESULT_PATH _package_path
+    )
+
+    # Find package again
+    find_package(qmsetup REQUIRED PATHS ${_package_path})
+
+    # Update import path
+    set(qmsetup_DIR ${_package_path} CACHE PATH "" FORCE)
+endif()
+
+add_subdirectory(qwindowkit)
 find_package(Qt6 COMPONENTS Widgets REQUIRED)
 
 # Add the source files to the target using file globbing
@@ -36,8 +60,9 @@ endif()
 # Link libraries and include directories
 target_link_libraries(LetItOut PRIVATE
     Qt6::Widgets
-    FramelessHelper::Core
-    FramelessHelper::Widgets
+#    FramelessHelper::Core
+#    FramelessHelper::Widgets
+    QWindowKit::Widgets
 )
 
 target_include_directories(LetItOut PRIVATE
@@ -52,14 +77,5 @@ if (WIN32)
     # Add the WIN32 flag to the executable (Windows-specific)
     target_compile_definitions(LetItOut PRIVATE
         WIN32
-    )
-
-    set(FRAMELESSHELPER_DLLS_DIR "${CMAKE_CURRENT_BINARY_DIR}/framelesshelper/bin64")
-
-    # Copy framelesshelper DLLs after the build
-    add_custom_command(TARGET LetItOut POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${FRAMELESSHELPER_DLLS_DIR}"
-        $<TARGET_FILE_DIR:LetItOut>
     )
 endif()

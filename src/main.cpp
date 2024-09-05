@@ -1,13 +1,11 @@
 #include <QApplication>
 #include <QSettings>
 #include "mainwindow.h"
-#include <FramelessHelper/Core/framelesshelpercore_global.h>
 
-FRAMELESSHELPER_USE_NAMESPACE
 
 int main(int argc, char *argv[])
 {
-    FramelessHelper::Core::initialize();
+    QGuiApplication::setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
 	QApplication app(argc, argv);
 
     MainWindow mainWindow;

@@ -12,10 +12,14 @@ class CustomTitleBar : public QWidget
 
 	public:
 		CustomTitleBar(QWidget* parent = nullptr);
+        QPushButton* minimizeButton;
+        QPushButton* maximizeButton;
+        QPushButton* closeButton;
 
 	protected:
 		void mousePressEvent(QMouseEvent* event) override;
-		void mouseMoveEvent(QMouseEvent* event) override;
+        void mouseMoveEvent(QMouseEvent* event) override;
+
 
 	private slots:
 		void minimizeWindow();
@@ -25,9 +29,6 @@ class CustomTitleBar : public QWidget
 	private:
 		QPoint startPos;
 		QLabel titleLabel;
-		QPushButton minimizeButton;
-		QPushButton maximizeButton;
-		QPushButton closeButton;
 		QHBoxLayout layout;
 };
 

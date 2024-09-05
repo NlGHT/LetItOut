@@ -39,7 +39,7 @@ class MainWindow : public QMainWindow
 		QScrollArea scrollArea;
         QListWidget listWidget;
 		QLineEdit inputField;
-		CustomTitleBar titleBar;
+        CustomTitleBar* titleBar;
         bool titleBarVisible;
         QString defaultSaveDir;
         QSettings settings;

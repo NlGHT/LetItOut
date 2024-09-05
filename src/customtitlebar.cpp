@@ -9,9 +9,6 @@
 
 CustomTitleBar::CustomTitleBar(QWidget* parent) : QWidget(parent),
 	titleLabel(" ", this),
-	minimizeButton("-", this),
-	maximizeButton("+", this),
-	closeButton("x", this),
 	layout(this)
 {
     QFile qssFile(":/qss/style.qss");
@@ -24,21 +21,24 @@ CustomTitleBar::CustomTitleBar(QWidget* parent) : QWidget(parent),
 	titleLabel.setObjectName("titleLabel");
 	titleLabel.setProperty("class", "title-label");
 
-	minimizeButton.setProperty("class", "title-button");
-    connect(&minimizeButton, &QPushButton::clicked, this, &CustomTitleBar::minimizeWindow);
+    minimizeButton = new QPushButton("-", this);
+    minimizeButton->setProperty("class", "title-button");
+    connect(minimizeButton, &QPushButton::clicked, this, &CustomTitleBar::minimizeWindow);
 
-	maximizeButton.setProperty("class", "title-button");
-    connect(&maximizeButton, &QPushButton::clicked, this, &CustomTitleBar::maximizeWindow);
+    maximizeButton = new QPushButton("+", this);
+    maximizeButton->setProperty("class", "title-button");
+    connect(maximizeButton, &QPushButton::clicked, this, &CustomTitleBar::maximizeWindow);
 
-	closeButton.setProperty("class", "title-button");
-    connect(&closeButton, &QPushButton::clicked, this, &CustomTitleBar::closeWindow);
+    closeButton = new QPushButton("x", this);
+    closeButton->setProperty("class", "title-button");
+    connect(closeButton, &QPushButton::clicked, this, &CustomTitleBar::closeWindow);
 
 	layout.setProperty("class", "title-layout");
 	layout.addWidget(&titleLabel);
 	layout.addStretch(1); // Add the gap so that buttons appear on the right
-    layout.addWidget(&minimizeButton);
-    layout.addWidget(&maximizeButton);
-    layout.addWidget(&closeButton);
+    layout.addWidget(minimizeButton);
+    layout.addWidget(maximizeButton);
+    layout.addWidget(closeButton);
 
     setLayout(&layout);
 }
