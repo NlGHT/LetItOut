@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  VERSION_NUMBER: 0.5
+  VERSION_NUMBER: 1.1
   QT_VERSION: 6.3.1
   PROJECT: "LetItOut"
   QT_PATH: D:\a\LetItOut\LetItOut\Qt
@@ -53,7 +53,7 @@ jobs:
         run: |
           dir
           mkdir build
-          "${{ env.IQTA_TOOLS }}\CMake_64\bin\cmake.exe" -S . -B build "-DCMAKE_BUILD_TYPE:STRING=Release" "-DQT_QMAKE_EXECUTABLE:FILEPATH=${{ env.Qt6_DIR }}/bin/qmake.exe" "-DCMAKE_PREFIX_PATH:PATH=${{ env.Qt6_DIR }}" "-DCMAKE_C_COMPILER:FILEPATH=${{ env.IQTA_TOOLS }}/${{ env.MINGW_VERSION }}/bin/gcc.exe" "-DCMAKE_CXX_COMPILER:FILEPATH=${{ env.IQTA_TOOLS }}/${{ env.MINGW_VERSION }}/bin/g++.exe"
+          "${{ env.IQTA_TOOLS }}\CMake_64\bin\cmake.exe" -S . -B build "-GMinGW Makefiles" "-DCMAKE_BUILD_TYPE:STRING=Release" "-DQT_QMAKE_EXECUTABLE:FILEPATH=${{ env.Qt6_DIR }}/bin/qmake.exe" "-DCMAKE_PREFIX_PATH:PATH=${{ env.Qt6_DIR }}" "-DCMAKE_C_COMPILER:FILEPATH=${{ env.IQTA_TOOLS }}/${{ env.MINGW_VERSION }}/bin/gcc.exe" "-DCMAKE_CXX_COMPILER:FILEPATH=${{ env.IQTA_TOOLS }}/${{ env.MINGW_VERSION }}/bin/g++.exe"
           cmake --build build
       - name: Deploy
         shell: cmd
