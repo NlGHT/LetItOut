@@ -30,7 +30,7 @@ jobs:
           submodules: recursive
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v3
+        uses: jurplel/install-qt-action@v4
         with:
           version: '${{ env.QT_VERSION }}'
           host: 'windows'
@@ -53,7 +53,7 @@ jobs:
         run: |
           dir
           mkdir build
-          "${{ env.IQTA_TOOLS }}\CMake_64\bin\cmake.exe" -S . -B build "-DCMAKE_GENERATOR:STRING=Ninja" "-DCMAKE_BUILD_TYPE:STRING=Release" "-DQT_QMAKE_EXECUTABLE:FILEPATH=${{ env.Qt6_DIR }}/bin/qmake.exe" "-DCMAKE_PREFIX_PATH:PATH=${{ env.Qt6_DIR }}" "-DCMAKE_C_COMPILER:FILEPATH=${{ env.IQTA_TOOLS }}/${{ env.MINGW_VERSION }}/bin/gcc.exe" "-DCMAKE_CXX_COMPILER:FILEPATH=${{ env.IQTA_TOOLS }}/${{ env.MINGW_VERSION }}/bin/g++.exe"
+          "${{ env.IQTA_TOOLS }}\CMake_64\bin\cmake.exe" -S . -B build "-DCMAKE_BUILD_TYPE:STRING=Release" "-DQT_QMAKE_EXECUTABLE:FILEPATH=${{ env.Qt6_DIR }}/bin/qmake.exe" "-DCMAKE_PREFIX_PATH:PATH=${{ env.Qt6_DIR }}" "-DCMAKE_C_COMPILER:FILEPATH=${{ env.IQTA_TOOLS }}/${{ env.MINGW_VERSION }}/bin/gcc.exe" "-DCMAKE_CXX_COMPILER:FILEPATH=${{ env.IQTA_TOOLS }}/${{ env.MINGW_VERSION }}/bin/g++.exe"
           cmake --build build
       - name: Deploy
         shell: cmd
@@ -63,8 +63,8 @@ jobs:
           copy "${{ env.Qt6_DIR }}\bin\libstdc++-6.dll" build
           copy "${{ env.Qt6_DIR }}\bin\libwinpthread-1.dll" build
           cd build
-          del /f /s /q .ninja_deps .ninja_log .qt build.ninja CMakeCache.txt cmake_install.cmake compile_commands.json D3Dcompiler_47.dll CMakeFiles imageformats translations framelesshelper
-          rmdir /s /q CMakeFiles imageformats translations .qt framelesshelper
+          del /f /s /q .ninja_deps .ninja_log .qt build.ninja CMakeCache.txt cmake_install.cmake compile_commands.json D3Dcompiler_47.dll CMakeFiles imageformats translations framelesshelper qwindowkit
+          rmdir /s /q CMakeFiles imageformats translations .qt framelesshelper qwindowkit
       - name: Tar build
         shell: cmd
         run: |
@@ -103,7 +103,7 @@ jobs:
           submodules: recursive
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v3
+        uses: jurplel/install-qt-action@v4
         with:
           version: '${{ env.QT_VERSION }}'
           host: 'linux'
