@@ -11,6 +11,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QStandardPaths>
+#include <QDate>
 
 #include <QWKWidgets/widgetwindowagent.h>
 
@@ -190,7 +191,8 @@ void MainWindow::saveAsTextFile()
     if (listWidget.count() > 0) {
 		// Prompt for the "Save As" window
 		// Prompt for "Save As" window
-		QFileDialog dialog(nullptr, "Save As");
+        QString date = QDate::currentDate().toString(Qt::ISODate);
+        QFileDialog dialog(this, "Save As", date);
 		dialog.setDefaultSuffix("txt");
         dialog.setDirectory(defaultSaveDir);
 		dialog.setAcceptMode(QFileDialog::AcceptSave);
